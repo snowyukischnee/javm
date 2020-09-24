@@ -6,14 +6,15 @@ import lombok.ToString;
 
 import java.nio.ByteBuffer;
 
-@Getter
-@ToString
-public class ConstantPoolMethodHandle extends ConstantPoolInfo {
 //    CONSTANT_MethodHandle_info {
 //        u1 tag;
 //        u1 reference_kind;
 //        u2 reference_index;
 //    }
+@SuppressWarnings("java:S125")
+@Getter
+@ToString
+public class ConstantPoolMethodHandle extends ConstantPoolInfo {
     private byte referenceKind;
     private short referenceIndex;
 

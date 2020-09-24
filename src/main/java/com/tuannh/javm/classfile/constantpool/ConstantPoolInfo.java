@@ -8,6 +8,7 @@ import lombok.ToString;
 //    u1 tag;
 //    u1 info[];
 //}
+@SuppressWarnings("java:S125")
 @AllArgsConstructor
 @Getter
 @ToString

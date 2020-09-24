@@ -6,14 +6,15 @@ import lombok.ToString;
 
 import java.nio.ByteBuffer;
 
-@Getter
-@ToString
-public class ConstantPoolInvokeDynamic extends ConstantPoolInfo {
 //    CONSTANT_InvokeDynamic_info {
 //        u1 tag;
 //        u2 bootstrap_method_attr_index;
 //        u2 name_and_type_index;
 //    }
+@SuppressWarnings("java:S125")
+@Getter
+@ToString
+public class ConstantPoolInvokeDynamic extends ConstantPoolInfo {
     private short bootstrapMethodAttrIndex;
     private short nameAndTypeIndex;
 

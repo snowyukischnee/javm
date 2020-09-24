@@ -12,6 +12,13 @@ public class ByteUtils {
         return Arrays.copyOfRange(arr, start, end + 1);
     }
 
+    public static byte[] concat(byte[] left, byte[] right) {
+        byte[] ret = new byte[left.length + right.length];
+        System.arraycopy(left, 0, ret, 0, left.length);
+        System.arraycopy(right, 0, ret, left.length, right.length);
+        return ret;
+    }
+
     public static byte[] readBytes(DataInputStream stream, int nBytes) throws IOException {
         byte[] ret = new byte[nBytes];
         for (int i = 0; i < nBytes; i++) {

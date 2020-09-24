@@ -23,13 +23,14 @@ import lombok.*;
 //        u2             attributes_count;
 //        attribute_info attributes[attributes_count];
 //        }
+@SuppressWarnings("java:S125")
 @AllArgsConstructor
 @Getter
 @ToString
 public class ClassFile {
     public static final int MAGIC_CONSTANT = 0xCAFEBABE;
     private int magic;
-    private VersionNumber minorVersion;
+    private short minorVersion;
     private VersionNumber majorVersion;
     private int constantPoolCount;
     private ConstantPoolInfo[] constantPool;
