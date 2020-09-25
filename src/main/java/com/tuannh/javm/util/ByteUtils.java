@@ -26,4 +26,12 @@ public class ByteUtils {
         }
         return ret;
     }
+
+    public static int[] readUnsignedShorts(DataInputStream stream, int nBytes) throws IOException {
+        int[] ret = new int[nBytes];
+        for (int i = 0; i < nBytes; i++) {
+            ret[i] = stream.readUnsignedShort();
+        }
+        return ret;
+    }
 }

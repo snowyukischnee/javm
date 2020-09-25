@@ -1,8 +1,8 @@
 package com.tuannh.javm.classfile.constantpool;
 
+import com.tuannh.javm.classfile.common.ImmediatelyResolvable;
 import com.tuannh.javm.util.ByteUtils;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.nio.ByteBuffer;
@@ -15,10 +15,9 @@ import java.nio.ByteBuffer;
 @SuppressWarnings("java:S125")
 @Getter
 @ToString
-public class ConstantPoolLong extends ConstantPoolInfo implements ImmediatelyResolvableConstantPoolType {
+public class ConstantPoolLong extends ConstantPoolInfo implements ImmediatelyResolvable {
     private byte[] highBytes;
     private byte[] lowBytes;
-    @Setter
     private long value;
 
     public ConstantPoolLong(byte[] bytes) {

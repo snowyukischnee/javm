@@ -1,10 +1,13 @@
 package com.tuannh.javm.classfile.constantpool;
 
+import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
 import com.tuannh.javm.util.ByteUtils;
 import lombok.Getter;
 import lombok.ToString;
 
 import java.nio.ByteBuffer;
+
+// TODO
 
 //    CONSTANT_MethodHandle_info {
 //        u1 tag;
@@ -14,7 +17,7 @@ import java.nio.ByteBuffer;
 @SuppressWarnings("java:S125")
 @Getter
 @ToString
-public class ConstantPoolMethodHandle extends ConstantPoolInfo {
+public class ConstantPoolMethodHandle extends ConstantPoolInfo implements ResolvableWithRequiredObj<ConstantPoolInfo[]> {
     private byte referenceKind;
     private short referenceIndex;
 
@@ -28,5 +31,10 @@ public class ConstantPoolMethodHandle extends ConstantPoolInfo {
         super(ConstantPoolTag.METHOD_HANDLE);
         this.referenceKind = referenceKind;
         this.referenceIndex = referenceIndex;
+    }
+
+    @Override
+    public void resolve(ConstantPoolInfo[] obj) {
+        // TODO
     }
 }

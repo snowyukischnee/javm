@@ -1,5 +1,8 @@
 package com.tuannh.javm.classfile;
 
+import com.tuannh.javm.classfile.attributeinfo.AttributeInfo;
+import com.tuannh.javm.classfile.common.ImmediatelyResolvable;
+import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
 import com.tuannh.javm.classfile.constantpool.*;
 import com.tuannh.javm.util.ByteUtils;
 
@@ -49,14 +52,68 @@ public class Parser {
         }
         ConstantPoolInfo[] constantPool = parseConstantPool(stream, constantPoolCount - 1);
         resolveConstantPoolInfo(constantPool);
+        AccessFlag[] accessFlag = AccessFlag.getAccessFlags(stream.readShort());
+        int thisClassIdx = stream.readUnsignedShort();
+        int superClassIdx = stream.readUnsignedShort();
+        ConstantPoolClass thisClass = (ConstantPoolClass) constantPool[thisClassIdx - 1];
+        ConstantPoolClass superClass = (ConstantPoolClass) constantPool[superClassIdx - 1];
+        int interfacesCount = stream.readUnsignedShort();
+        ConstantPoolClass[] interfaces = parseInterfaces(stream, interfacesCount, constantPool);
+        int fieldsCount = stream.readUnsignedShort();
+        FieldInfo[] fields = parseFieldInfo(stream, fieldsCount, constantPool);
+        resolveFieldInfo(fields, constantPool);
         return new ClassFile(
                 magic,
                 minorVersion,
-                VersionNumber.fromShort(majorVersion),
+                majorVersion,
                 constantPoolCount,
                 constantPool,
-                null
+                accessFlag,
+                thisClass,
+                superClass,
+                interfacesCount,
+                interfaces,
+                fieldsCount,
+                fields
         );
+    }
+
+    public static FieldInfo[] parseFieldInfo(DataInputStream stream, int fieldLength, ConstantPoolInfo[] constantPool) throws IOException {
+        FieldInfo[] fields = new FieldInfo[fieldLength];
+        for (int i = 0; i < fieldLength; i++) {
+            AccessFlag[] accessFlag = AccessFlag.getAccessFlags(stream.readShort());
+            int nameIndex = stream.readUnsignedShort();
+            int descriptorIndex = stream.readUnsignedShort();
+            int attributesCount = stream.readUnsignedShort();
+            AttributeInfo[] attributes = parseAttributeInfo(stream, attributesCount, constantPool);
+            fields[i] = new FieldInfo(accessFlag, nameIndex, descriptorIndex, attributesCount, attributes);
+        }
+        return fields;
+    }
+
+    public static AttributeInfo[] parseAttributeInfo(DataInputStream stream, int attributesCount, ConstantPoolInfo[] constantPool) throws IOException {
+        AttributeInfo[] attributes = new AttributeInfo[attributesCount];
+        for (int i = 0; i < attributesCount; i++) {
+            int attributeNameIndex = stream.readUnsignedShort();
+            int attributeLength = stream.readInt();
+            stream.skipBytes(attributeLength);
+            attributes[i] = new AttributeInfo(attributeNameIndex, attributeLength);
+        }
+        return attributes;
+    }
+
+    public static ConstantPoolClass[] parseInterfaces(DataInputStream stream, int interfaceLength, ConstantPoolInfo[] constantPool) throws IOException {
+        // interfaces[]
+        //Each value in the interfaces array must be a valid index into the constant_pool table.
+        // The constant_pool entry at each value of interfaces[i], where 0 ≤ i < interfaces_count,
+        // must be a CONSTANT_Class_info structure representing an interface that is a direct superinterface of
+        // this class or interface type, in the left-to-right order given in the source for the type.
+        int[] interfacesIdx = ByteUtils.readUnsignedShorts(stream, interfaceLength);
+        ConstantPoolClass[] interfaces = new ConstantPoolClass[interfaceLength];
+        for (int i = 0; i < interfaceLength; i++) {
+            interfaces[i] = (ConstantPoolClass) constantPool[interfacesIdx[i] - 1];
+        }
+        return interfaces;
     }
 
     @SuppressWarnings({"java:S112", "java:S127", "java:S117"})
@@ -140,74 +197,35 @@ public class Parser {
         return constantPool;
     }
 
-    @SuppressWarnings("java:S112")
+    @SuppressWarnings({"java:S112", "StatementWithEmptyBody", "java:S3776", "unchecked"})
     private static void resolveConstantPoolInfo(ConstantPoolInfo[] constantPool) {
         for (ConstantPoolInfo constantPoolInfo : constantPool) {
-            if (constantPoolInfo instanceof ImmediatelyResolvableConstantPoolType) {
-                ((ImmediatelyResolvableConstantPoolType) constantPoolInfo).resolve();
+            if (constantPoolInfo instanceof ImmediatelyResolvable) {
+                ((ImmediatelyResolvable) constantPoolInfo).resolve();
             }
         }
         for (ConstantPoolInfo constantPoolInfo : constantPool) {
-            if (constantPoolInfo instanceof ConstantPoolClass) {
-                ConstantPoolClass cp = (ConstantPoolClass) constantPoolInfo;
-                cp.setName(
-                        ((ConstantPoolUtf8)constantPool[cp.getNameIndex() - 1]).getValue()
-                );
-            } else if (constantPoolInfo instanceof ConstantPoolFieldRef) {
-                ConstantPoolFieldRef cp = (ConstantPoolFieldRef) constantPoolInfo;
-                cp.setClazz(
-                        (ConstantPoolClass) constantPool[cp.getClassIndex() - 1]
-                );
-                cp.setNameAndType(
-                        (ConstantPoolNameAndType) constantPool[cp.getNameAndTypeIndex() - 1]
-                );
-            } else if (constantPoolInfo instanceof ConstantPoolMethodRef) {
-                ConstantPoolMethodRef cp = (ConstantPoolMethodRef) constantPoolInfo;
-                cp.setClazz(
-                        (ConstantPoolClass) constantPool[cp.getClassIndex() - 1]
-                );
-                cp.setNameAndType(
-                        (ConstantPoolNameAndType) constantPool[cp.getNameAndTypeIndex() - 1]
-                );
-            } else if (constantPoolInfo instanceof ConstantPoolInterfaceMethodRef) {
-                ConstantPoolInterfaceMethodRef cp = (ConstantPoolInterfaceMethodRef) constantPoolInfo;
-                cp.setClazz(
-                        (ConstantPoolClass) constantPool[cp.getClassIndex() - 1]
-                );
-                cp.setNameAndType(
-                        (ConstantPoolNameAndType) constantPool[cp.getNameAndTypeIndex() - 1]
-                );
-            } else if (constantPoolInfo instanceof ConstantPoolString) {
-                ConstantPoolString cp = (ConstantPoolString) constantPoolInfo;
-                cp.setValue(
-                        ((ConstantPoolUtf8)constantPool[cp.getStringIndex() - 1]).getValue()
-                );
-            } else if (
-                    constantPoolInfo instanceof ConstantPoolInteger ||
-                    constantPoolInfo instanceof ConstantPoolFloat ||
-                    constantPoolInfo instanceof ConstantPoolLong ||
-                    constantPoolInfo instanceof ConstantPoolDouble ||
-                    constantPoolInfo instanceof ConstantPoolUtf8
-            ) {
-                // already resolved, do nothing
-            } else if (constantPoolInfo instanceof ConstantPoolNameAndType) {
-                ConstantPoolNameAndType cp = (ConstantPoolNameAndType) constantPoolInfo;
-                cp.setName(
-                        ((ConstantPoolUtf8)constantPool[cp.getNameIndex() - 1]).getValue()
-                );
-                cp.setDescriptor(
-                        ((ConstantPoolUtf8)constantPool[cp.getDescriptorIndex() - 1]).getValue()
-                );
-            } else if (constantPoolInfo instanceof ConstantPoolMethodHandle) {
-                // TODO
-            } else if (constantPoolInfo instanceof ConstantPoolMethodType) {
-                // TODO
-            } else if (constantPoolInfo instanceof ConstantPoolInvokeDynamic) {
-                // TODO
+            if (constantPoolInfo instanceof ImmediatelyResolvable) {
+                // skip
+            } else if (constantPoolInfo instanceof ResolvableWithRequiredObj) {
+                ((ResolvableWithRequiredObj<ConstantPoolInfo[]>) constantPoolInfo).resolve(constantPool);
             } else if (constantPoolInfo == null) {
                 // null entry, produced by ConstantPoolLong and ConstantPoolDouble, which take 2 ConstantPool entries
             } else {
                 throw new RuntimeException("Unrecognized ConstantPool type");
+            }
+        }
+    }
+
+    private static void resolveFieldInfo(FieldInfo[] fields, ConstantPoolInfo[] constantPool) {
+        for (FieldInfo field : fields) {
+            if (field instanceof ImmediatelyResolvable) {
+                ((ImmediatelyResolvable) field).resolve();
+            }
+        }
+        for (FieldInfo field : fields) {
+            if (field != null) {
+                ((ResolvableWithRequiredObj<ConstantPoolInfo[]>)field).resolve(constantPool);
             }
         }
     }

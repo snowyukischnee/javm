@@ -1,5 +1,6 @@
 package com.tuannh.javm.classfile;
 
+import com.tuannh.javm.classfile.constantpool.ConstantPoolClass;
 import com.tuannh.javm.classfile.constantpool.ConstantPoolInfo;
 import lombok.*;
 
@@ -31,10 +32,14 @@ public class ClassFile {
     public static final int MAGIC_CONSTANT = 0xCAFEBABE;
     private int magic;
     private short minorVersion;
-    private VersionNumber majorVersion;
+    private short majorVersion;
     private int constantPoolCount;
     private ConstantPoolInfo[] constantPool;
-    private AccessFlag accessFlags;
-
-
+    private AccessFlag[] accessFlags;
+    private ConstantPoolClass thisClass;
+    private ConstantPoolClass superClass;
+    private int interfacesCount;
+    private ConstantPoolClass[] interfaces;
+    private int fieldsCount;
+    private FieldInfo[] fields;
 }

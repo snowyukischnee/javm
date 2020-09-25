@@ -1,10 +1,13 @@
 package com.tuannh.javm.classfile.constantpool;
 
+import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
 import com.tuannh.javm.util.ByteUtils;
 import lombok.Getter;
 import lombok.ToString;
 
 import java.nio.ByteBuffer;
+
+// TODO
 
 //    CONSTANT_InvokeDynamic_info {
 //        u1 tag;
@@ -14,7 +17,7 @@ import java.nio.ByteBuffer;
 @SuppressWarnings("java:S125")
 @Getter
 @ToString
-public class ConstantPoolInvokeDynamic extends ConstantPoolInfo {
+public class ConstantPoolInvokeDynamic extends ConstantPoolInfo implements ResolvableWithRequiredObj<ConstantPoolInfo[]> {
     private short bootstrapMethodAttrIndex;
     private short nameAndTypeIndex;
 
@@ -28,5 +31,10 @@ public class ConstantPoolInvokeDynamic extends ConstantPoolInfo {
         super(ConstantPoolTag.METHOD_TYPE);
         this.bootstrapMethodAttrIndex = bootstrapMethodAttrIndex;
         this.nameAndTypeIndex = nameAndTypeIndex;
+    }
+
+    @Override
+    public void resolve(ConstantPoolInfo[] obj) {
+        // TODO
     }
 }

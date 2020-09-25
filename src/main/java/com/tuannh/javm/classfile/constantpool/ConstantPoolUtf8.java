@@ -1,8 +1,8 @@
 package com.tuannh.javm.classfile.constantpool;
 
+import com.tuannh.javm.classfile.common.ImmediatelyResolvable;
 import com.tuannh.javm.util.ByteUtils;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.nio.ByteBuffer;
@@ -16,10 +16,9 @@ import java.nio.charset.StandardCharsets;
 @SuppressWarnings("java:S125")
 @Getter
 @ToString
-public class ConstantPoolUtf8 extends ConstantPoolInfo implements ImmediatelyResolvableConstantPoolType {
+public class ConstantPoolUtf8 extends ConstantPoolInfo implements ImmediatelyResolvable {
     private short length;
     private byte[] bytes;
-    @Setter
     private String value;
 
     public ConstantPoolUtf8(byte[] bytes) {
