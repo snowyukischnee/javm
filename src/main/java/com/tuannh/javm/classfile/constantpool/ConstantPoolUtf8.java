@@ -26,14 +26,12 @@ public class ConstantPoolUtf8 extends ConstantPoolInfo implements ImmediatelyRes
         super(ConstantPoolTag.UTF8);
         this.length = ByteBuffer.wrap(ByteUtils.slice(bytes, 0, 2)).getShort();
         this.bytes = ByteUtils.slice(bytes, 2, bytes.length);
-        resolve();
     }
 
     public ConstantPoolUtf8(short length, byte[] bytes) {
         super(ConstantPoolTag.UTF8);
         this.length = length;
         this.bytes = bytes;
-        resolve();
     }
 
     @Override

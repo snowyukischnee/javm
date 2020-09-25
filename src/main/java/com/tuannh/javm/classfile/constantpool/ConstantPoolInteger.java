@@ -21,7 +21,6 @@ public class ConstantPoolInteger extends ConstantPoolInfo implements Immediately
     public ConstantPoolInteger(byte[] bytes) {
         super(ConstantPoolTag.INTEGER);
         this.bytes = bytes;
-        resolve();
     }
 
     @Override

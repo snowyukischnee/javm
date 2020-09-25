@@ -25,14 +25,12 @@ public class ConstantPoolLong extends ConstantPoolInfo implements ImmediatelyRes
         super(ConstantPoolTag.LONG);
         this.highBytes = ByteUtils.slice(bytes, 0, 4);
         this.lowBytes = ByteUtils.slice(bytes, 4, 8);
-        resolve();
     }
 
     public ConstantPoolLong(byte[] highBytes, byte[] lowBytes) {
         super(ConstantPoolTag.LONG);
         this.highBytes = highBytes;
         this.lowBytes = lowBytes;
-        resolve();
     }
 
     @Override

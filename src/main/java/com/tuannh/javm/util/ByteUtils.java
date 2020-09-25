@@ -9,7 +9,7 @@ public class ByteUtils {
 
     // get slice [start, end)
     public static byte[] slice(byte[] arr, int start, int end) {
-        return Arrays.copyOfRange(arr, start, end + 1);
+        return Arrays.copyOfRange(arr, start, end);
     }
 
     public static byte[] concat(byte[] left, byte[] right) {

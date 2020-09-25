@@ -48,7 +48,7 @@ public class Parser {
             throw new RuntimeException("ConstantPoolCount smaller than 0");
         }
         ConstantPoolInfo[] constantPool = parseConstantPool(stream, constantPoolCount - 1);
-
+        resolveConstantPoolInfo(constantPool);
         return new ClassFile(
                 magic,
                 minorVersion,
@@ -140,12 +140,75 @@ public class Parser {
         return constantPool;
     }
 
-//    private static void resolveConstantPoolInfo(ConstantPoolInfo[] constantPool) {
-//        for (ConstantPoolInfo constantPoolInfo : constantPool) {
-//            if (constantPoolInfo instanceof ConstantPoolClass) {
-//                ConstantPoolClass obj = (ConstantPoolClass) constantPoolInfo;
-//                obj.setName(constantPool[obj.getNameIndex() - 1]);
-//            }
-//        }
-//    }
+    @SuppressWarnings("java:S112")
+    private static void resolveConstantPoolInfo(ConstantPoolInfo[] constantPool) {
+        for (ConstantPoolInfo constantPoolInfo : constantPool) {
+            if (constantPoolInfo instanceof ImmediatelyResolvableConstantPoolType) {
+                ((ImmediatelyResolvableConstantPoolType) constantPoolInfo).resolve();
+            }
+        }
+        for (ConstantPoolInfo constantPoolInfo : constantPool) {
+            if (constantPoolInfo instanceof ConstantPoolClass) {
+                ConstantPoolClass cp = (ConstantPoolClass) constantPoolInfo;
+                cp.setName(
+                        ((ConstantPoolUtf8)constantPool[cp.getNameIndex() - 1]).getValue()
+                );
+            } else if (constantPoolInfo instanceof ConstantPoolFieldRef) {
+                ConstantPoolFieldRef cp = (ConstantPoolFieldRef) constantPoolInfo;
+                cp.setClazz(
+                        (ConstantPoolClass) constantPool[cp.getClassIndex() - 1]
+                );
+                cp.setNameAndType(
+                        (ConstantPoolNameAndType) constantPool[cp.getNameAndTypeIndex() - 1]
+                );
+            } else if (constantPoolInfo instanceof ConstantPoolMethodRef) {
+                ConstantPoolMethodRef cp = (ConstantPoolMethodRef) constantPoolInfo;
+                cp.setClazz(
+                        (ConstantPoolClass) constantPool[cp.getClassIndex() - 1]
+                );
+                cp.setNameAndType(
+                        (ConstantPoolNameAndType) constantPool[cp.getNameAndTypeIndex() - 1]
+                );
+            } else if (constantPoolInfo instanceof ConstantPoolInterfaceMethodRef) {
+                ConstantPoolInterfaceMethodRef cp = (ConstantPoolInterfaceMethodRef) constantPoolInfo;
+                cp.setClazz(
+                        (ConstantPoolClass) constantPool[cp.getClassIndex() - 1]
+                );
+                cp.setNameAndType(
+                        (ConstantPoolNameAndType) constantPool[cp.getNameAndTypeIndex() - 1]
+                );
+            } else if (constantPoolInfo instanceof ConstantPoolString) {
+                ConstantPoolString cp = (ConstantPoolString) constantPoolInfo;
+                cp.setValue(
+                        ((ConstantPoolUtf8)constantPool[cp.getStringIndex() - 1]).getValue()
+                );
+            } else if (
+                    constantPoolInfo instanceof ConstantPoolInteger ||
+                    constantPoolInfo instanceof ConstantPoolFloat ||
+                    constantPoolInfo instanceof ConstantPoolLong ||
+                    constantPoolInfo instanceof ConstantPoolDouble ||
+                    constantPoolInfo instanceof ConstantPoolUtf8
+            ) {
+                // already resolved, do nothing
+            } else if (constantPoolInfo instanceof ConstantPoolNameAndType) {
+                ConstantPoolNameAndType cp = (ConstantPoolNameAndType) constantPoolInfo;
+                cp.setName(
+                        ((ConstantPoolUtf8)constantPool[cp.getNameIndex() - 1]).getValue()
+                );
+                cp.setDescriptor(
+                        ((ConstantPoolUtf8)constantPool[cp.getDescriptorIndex() - 1]).getValue()
+                );
+            } else if (constantPoolInfo instanceof ConstantPoolMethodHandle) {
+                // TODO
+            } else if (constantPoolInfo instanceof ConstantPoolMethodType) {
+                // TODO
+            } else if (constantPoolInfo instanceof ConstantPoolInvokeDynamic) {
+                // TODO
+            } else if (constantPoolInfo == null) {
+                // null entry, produced by ConstantPoolLong and ConstantPoolDouble, which take 2 ConstantPool entries
+            } else {
+                throw new RuntimeException("Unrecognized ConstantPool type");
+            }
+        }
+    }
 }

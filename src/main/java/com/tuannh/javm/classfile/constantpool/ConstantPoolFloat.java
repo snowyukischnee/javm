@@ -21,7 +21,6 @@ public class ConstantPoolFloat extends ConstantPoolInfo implements ImmediatelyRe
     public ConstantPoolFloat(byte[] bytes) {
         super(ConstantPoolTag.FLOAT);
         this.bytes = bytes;
-        resolve();
     }
 
     @Override

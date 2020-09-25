@@ -25,14 +25,12 @@ public class ConstantPoolDouble extends ConstantPoolInfo implements ImmediatelyR
         super(ConstantPoolTag.DOUBLE);
         this.highBytes = ByteUtils.slice(bytes, 0, 4);
         this.lowBytes = ByteUtils.slice(bytes, 4, 8);
-        resolve();
     }
 
     public ConstantPoolDouble(byte[] highBytes, byte[] lowBytes) {
         super(ConstantPoolTag.DOUBLE);
         this.highBytes = highBytes;
         this.lowBytes = lowBytes;
-        resolve();
     }
 
     @Override
