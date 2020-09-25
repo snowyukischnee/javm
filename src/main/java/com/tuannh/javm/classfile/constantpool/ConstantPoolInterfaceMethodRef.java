@@ -2,7 +2,9 @@ package com.tuannh.javm.classfile.constantpool;
 
 import com.tuannh.javm.classfile.common.DebugPrintConstants;
 import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
+import com.tuannh.javm.util.ByteBufferUtils;
 import com.tuannh.javm.util.ByteUtils;
+import com.tuannh.javm.util.Conversion;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -24,21 +26,21 @@ import java.nio.ByteBuffer;
 @Getter
 @ToString
 public class ConstantPoolInterfaceMethodRef extends ConstantPoolInfo implements ResolvableWithRequiredObj<ConstantPoolInfo[]> {
-    private short classIndex;
-    private short nameAndTypeIndex;
+    private int classIndex;
+    private int nameAndTypeIndex;
     private ConstantPoolClass clazz;
     private ConstantPoolNameAndType nameAndType;
 
     public ConstantPoolInterfaceMethodRef(byte[] bytes) {
         super(ConstantPoolTag.INTERFACE_METHOD_REF);
-        this.classIndex = ByteBuffer.wrap(ByteUtils.slice(bytes, 0, 2)).getShort();
-        this.nameAndTypeIndex = ByteBuffer.wrap(ByteUtils.slice(bytes, 2, 4)).getShort();
+        this.classIndex = ByteBufferUtils.getUnsignedShort(ByteUtils.slice(bytes, 0, 2));
+        this.nameAndTypeIndex = ByteBufferUtils.getUnsignedShort(ByteUtils.slice(bytes, 2, 4));
     }
 
     public ConstantPoolInterfaceMethodRef(short classIndex, short nameAndTypeIndex) {
         super(ConstantPoolTag.INTERFACE_METHOD_REF);
-        this.classIndex = classIndex;
-        this.nameAndTypeIndex = nameAndTypeIndex;
+        this.classIndex = Conversion.shortToInt(classIndex);
+        this.nameAndTypeIndex = Conversion.shortToInt(nameAndTypeIndex);
     }
 
     @Override

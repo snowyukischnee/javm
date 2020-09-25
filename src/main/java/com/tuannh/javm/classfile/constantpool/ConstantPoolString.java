@@ -2,6 +2,8 @@ package com.tuannh.javm.classfile.constantpool;
 
 import com.tuannh.javm.classfile.common.DebugPrintConstants;
 import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
+import com.tuannh.javm.util.ByteBufferUtils;
+import com.tuannh.javm.util.Conversion;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -15,17 +17,17 @@ import java.nio.ByteBuffer;
 @Getter
 @ToString
 public class ConstantPoolString extends ConstantPoolInfo implements ResolvableWithRequiredObj<ConstantPoolInfo[]> {
-    private short stringIndex;
+    private int stringIndex;
     private String value;
 
     public ConstantPoolString(byte[] bytes) {
         super(ConstantPoolTag.STRING);
-        this.stringIndex = ByteBuffer.wrap(bytes).getShort();
+        this.stringIndex = ByteBufferUtils.getUnsignedShort(bytes);
     }
 
     public ConstantPoolString(short stringIndex) {
         super(ConstantPoolTag.STRING);
-        this.stringIndex = stringIndex;
+        this.stringIndex = Conversion.shortToInt(stringIndex);
     }
 
     @Override

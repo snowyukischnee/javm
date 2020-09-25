@@ -1,7 +1,9 @@
 package com.tuannh.javm.classfile.constantpool;
 
 import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
+import com.tuannh.javm.util.ByteBufferUtils;
 import com.tuannh.javm.util.ByteUtils;
+import com.tuannh.javm.util.Conversion;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -17,18 +19,18 @@ import java.nio.ByteBuffer;
 @ToString
 public class ConstantPoolMethodHandle extends ConstantPoolInfo implements ResolvableWithRequiredObj<ConstantPoolInfo[]> {
     private byte referenceKind;
-    private short referenceIndex;
+    private int referenceIndex;
 
     public ConstantPoolMethodHandle(byte[] bytes) {
         super(ConstantPoolTag.METHOD_HANDLE);
         this.referenceKind = ByteBuffer.wrap(ByteUtils.slice(bytes, 0, 1)).get();
-        this.referenceIndex = ByteBuffer.wrap(ByteUtils.slice(bytes, 1, 3)).getShort();
+        this.referenceIndex = ByteBufferUtils.getUnsignedShort(ByteUtils.slice(bytes, 1, 3));
     }
 
     public ConstantPoolMethodHandle(byte referenceKind, short referenceIndex) {
         super(ConstantPoolTag.METHOD_HANDLE);
         this.referenceKind = referenceKind;
-        this.referenceIndex = referenceIndex;
+        this.referenceIndex = Conversion.shortToInt(referenceIndex);
     }
 
     @Override

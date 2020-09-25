@@ -2,7 +2,9 @@ package com.tuannh.javm.classfile.constantpool;
 
 import com.tuannh.javm.classfile.common.DebugPrintConstants;
 import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
+import com.tuannh.javm.util.ByteBufferUtils;
 import com.tuannh.javm.util.ByteUtils;
+import com.tuannh.javm.util.Conversion;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -28,21 +30,21 @@ import java.nio.ByteBuffer;
 @Getter
 @ToString
 public class ConstantPoolNameAndType extends ConstantPoolInfo implements ResolvableWithRequiredObj<ConstantPoolInfo[]> {
-    private short nameIndex;
-    private short descriptorIndex;
+    private int nameIndex;
+    private int descriptorIndex;
     private String name;
     private String descriptor;
 
     public ConstantPoolNameAndType(byte[] bytes) {
         super(ConstantPoolTag.NAME_AND_TYPE);
-        this.nameIndex = ByteBuffer.wrap(ByteUtils.slice(bytes, 0, 2)).getShort();
-        this.descriptorIndex = ByteBuffer.wrap(ByteUtils.slice(bytes, 2, 4)).getShort();
+        this.nameIndex = ByteBufferUtils.getUnsignedShort(ByteUtils.slice(bytes, 0, 2));
+        this.descriptorIndex = ByteBufferUtils.getUnsignedShort(ByteUtils.slice(bytes, 2, 4));
     }
 
     public ConstantPoolNameAndType(short nameIndex, short descriptorIndex) {
         super(ConstantPoolTag.NAME_AND_TYPE);
-        this.nameIndex = nameIndex;
-        this.descriptorIndex = descriptorIndex;
+        this.nameIndex = Conversion.shortToInt(nameIndex);
+        this.descriptorIndex = Conversion.shortToInt(descriptorIndex);
     }
 
     @Override

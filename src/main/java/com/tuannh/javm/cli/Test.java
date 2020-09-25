@@ -12,12 +12,5 @@ public class Test {
         final String classPath = "/home/tuannh/Desktop/javm/target/classes/com/tuannh/javm/cli/TestParser.class";
         ClassFile classFile = Parser.parseClassFile(classPath);
         System.out.println(classFile.debugPrint());
-        for (FieldInfo field : classFile.getFields()) {
-            System.out.println(field);
-        }
-        Field[] fx = TestParser.class.getFields();
-        for (Field f : fx) {
-            System.out.println(f);
-        }
     }
 }

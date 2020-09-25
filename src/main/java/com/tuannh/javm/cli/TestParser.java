@@ -21,6 +21,8 @@ public class TestParser extends TestInheritance implements TestInterface {
     public static final int AASD = 43253445;
     public static final float FFSS = 123456.789F;
 
+    public final Double x = 1.2;
+
     public static void main(String[] args) {
         System.out.println(TESTSTR);
         TestInterface.ff();

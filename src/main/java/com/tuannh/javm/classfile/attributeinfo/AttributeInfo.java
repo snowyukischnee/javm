@@ -1,11 +1,10 @@
 package com.tuannh.javm.classfile.attributeinfo;
 
+import com.tuannh.javm.classfile.common.DebugPrint;
 import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
 import com.tuannh.javm.classfile.constantpool.ConstantPoolInfo;
 import com.tuannh.javm.classfile.constantpool.ConstantPoolUtf8;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 //attribute_info {
@@ -16,13 +15,14 @@ import lombok.ToString;
 @SuppressWarnings("java:S125")
 @Getter
 @ToString
-public class AttributeInfo implements ResolvableWithRequiredObj<ConstantPoolInfo[]> {
+public abstract class AttributeInfo implements ResolvableWithRequiredObj<ConstantPoolInfo[]>, DebugPrint {
     private int attributeNameIndex;
     private int attributeLength;
     private String attributeName;
 
     public AttributeInfo(int attributeNameIndex, int attributeLength) {
-
+        this.attributeNameIndex = attributeNameIndex;
+        this.attributeLength = attributeLength;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.tuannh.javm.classfile;
 
 import com.tuannh.javm.classfile.accessflag.ClassAccessFlag;
-import com.tuannh.javm.classfile.common.DebugStr;
+import com.tuannh.javm.classfile.common.DebugPrint;
 import com.tuannh.javm.classfile.constantpool.ConstantPoolClass;
 import com.tuannh.javm.classfile.constantpool.ConstantPoolInfo;
 import lombok.*;
@@ -32,7 +32,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Getter
 @ToString
-public class ClassFile implements DebugStr {
+public class ClassFile implements DebugPrint {
     public static final int MAGIC_CONSTANT = 0xCAFEBABE;
     private int magic;
     private short minorVersion;
@@ -51,32 +51,32 @@ public class ClassFile implements DebugStr {
     public String debugPrint() {
         StringBuilder builder = new StringBuilder();
         builder.append("ClassFile\n");
-        builder.append(String.format("\tmagic:\t0x%s%n", Integer.toHexString(magic).toUpperCase()));
-        builder.append(String.format("\tminorVersion:\t%d (0x%s)%n", minorVersion, Integer.toHexString(minorVersion).toUpperCase()));
-        builder.append(String.format("\tmajorVersion:\t%d (0x%s)%n", majorVersion, Integer.toHexString(majorVersion).toUpperCase()));
-        builder.append(String.format("\taccessFlags:\t%s%n", Arrays.toString(accessFlags)));
-        builder.append(String.format("\tthisClass:\t%s%n", thisClass.debugPrint()));
-        builder.append(String.format("\tsuperClass:\t%s%n", superClass.debugPrint()));
+        builder.append(String.format("magic:\t0x%s%n", Integer.toHexString(magic).toUpperCase()));
+        builder.append(String.format("minor_version:\t%d (0x%s)%n", minorVersion, Integer.toHexString(minorVersion).toUpperCase()));
+        builder.append(String.format("major_version:\t%d (0x%s)%n", majorVersion, Integer.toHexString(majorVersion).toUpperCase()));
+        builder.append(String.format("access_flags:\t%s%n", Arrays.toString(accessFlags)));
+        builder.append(String.format("this_class:\t%s%n", thisClass.debugPrint()));
+        builder.append(String.format("super_class:\t%s%n", superClass.debugPrint()));
         // ---
-        builder.append(String.format("\tconstantPoolCount: %d\t", constantPoolCount));
-        builder.append(String.format("\tinterfacesCount: %d\t", interfacesCount));
-        builder.append(String.format("\tfieldsCount: %d\t", fieldsCount));
+        builder.append(String.format("constant_pool_count: %d\t", constantPoolCount));
+        builder.append(String.format("interfaces_count: %d\t", interfacesCount));
+        builder.append(String.format("fields_count: %d\t", fieldsCount));
         builder.append("\n");
         // ---
-        builder.append("\tConstant pool:\n");
+        builder.append(String.format("Constant pool(count=%d):%n", constantPoolCount));
         for (int i = 0; i < constantPoolCount - 1; i++) {
             if (constantPool[i] == null) {
                 continue;
             }
-            builder.append(String.format("\t\t#%d\t%s%n", i + 1, constantPool[i].debugPrint()));
+            builder.append(String.format("\t#%d\t%s%n", i + 1, constantPool[i].debugPrint()));
         }
-        builder.append(String.format("\tinterfacesCount\t%d%n", interfacesCount));
+        builder.append(String.format("Interfaces(count=%d):%n", interfacesCount));
         for (int i = 0; i < interfacesCount; i++) {
-            builder.append(interfaces[i]).append("\n");
+            builder.append(String.format("\t#%d\t%s%n", i + 1, interfaces[i].debugPrint()));
         }
-        builder.append(String.format("\tfieldsCount\t%d%n", fieldsCount));
+        builder.append(String.format("Fields(count=%d):%n", fieldsCount));
         for (int i = 0; i < fieldsCount; i++) {
-            builder.append(fields[i]).append("\n");
+            builder.append(String.format("\t#%d%n%s%n", i + 1, fields[i].debugPrint()));
         }
         return builder.toString();
     }

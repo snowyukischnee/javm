@@ -1,5 +1,5 @@
 package com.tuannh.javm.classfile.common;
 
-public interface DebugStr {
+public interface DebugPrint {
     String debugPrint();
 }

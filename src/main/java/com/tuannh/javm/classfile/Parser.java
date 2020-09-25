@@ -3,6 +3,8 @@ package com.tuannh.javm.classfile;
 import com.tuannh.javm.classfile.accessflag.ClassAccessFlag;
 import com.tuannh.javm.classfile.accessflag.FieldAccessFlag;
 import com.tuannh.javm.classfile.attributeinfo.AttributeInfo;
+import com.tuannh.javm.classfile.attributeinfo.AttributeInfoConstantValue;
+import com.tuannh.javm.classfile.attributeinfo.AttributeInfoType;
 import com.tuannh.javm.classfile.common.ImmediatelyResolvable;
 import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
 import com.tuannh.javm.classfile.constantpool.*;
@@ -98,9 +100,18 @@ public class Parser {
         for (int i = 0; i < attributesCount; i++) {
             int attributeNameIndex = stream.readUnsignedShort();
             int attributeLength = stream.readInt();
-            stream.skipBytes(attributeLength);
-            attributes[i] = new AttributeInfo(attributeNameIndex, attributeLength);
-//            attributes[i].resolve(constantPool);
+            String attributeName = ((ConstantPoolUtf8)constantPool[attributeNameIndex- 1]).getValue();
+            AttributeInfoType attributeType = AttributeInfoType.fromStr(attributeName);
+            // -------------------------------------------------------------
+            switch (attributeType) {
+                case CONSTANT_VALUE:
+                    attributes[i] = new AttributeInfoConstantValue(attributeNameIndex, attributeLength, ByteUtils.readBytes(stream, attributeLength));
+                    attributes[i].resolve(constantPool); // FIXME
+                    break;
+                default:
+                    stream.skipBytes(attributeLength);
+            }
+            // -------------------------------------------------------------
         }
         return attributes;
     }

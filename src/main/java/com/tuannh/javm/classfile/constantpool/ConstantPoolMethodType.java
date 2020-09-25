@@ -1,6 +1,8 @@
 package com.tuannh.javm.classfile.constantpool;
 
 import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
+import com.tuannh.javm.util.ByteBufferUtils;
+import com.tuannh.javm.util.Conversion;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -19,17 +21,17 @@ import java.nio.ByteBuffer;
 @Getter
 @ToString
 public class ConstantPoolMethodType extends ConstantPoolInfo implements ResolvableWithRequiredObj<ConstantPoolInfo[]> {
-    private short descriptorIndex;
+    private int descriptorIndex;
     private String descriptor;
 
     public ConstantPoolMethodType(byte[] bytes) {
         super(ConstantPoolTag.METHOD_TYPE);
-        this.descriptorIndex = ByteBuffer.wrap(bytes).getShort();
+        this.descriptorIndex = ByteBufferUtils.getUnsignedShort(bytes);
     }
 
     public ConstantPoolMethodType(short descriptorIndex) {
         super(ConstantPoolTag.METHOD_TYPE);
-        this.descriptorIndex = descriptorIndex;
+        this.descriptorIndex = Conversion.shortToInt(descriptorIndex);
     }
 
     @Override
