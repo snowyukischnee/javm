@@ -233,13 +233,8 @@ public class Parser {
 
     private static void resolveFieldInfo(FieldInfo[] fields, ConstantPoolInfo[] constantPool) {
         for (FieldInfo field : fields) {
-            if (field instanceof ImmediatelyResolvable) {
-                ((ImmediatelyResolvable) field).resolve();
-            }
-        }
-        for (FieldInfo field : fields) {
             if (field != null) {
-                ((ResolvableWithRequiredObj<ConstantPoolInfo[]>)field).resolve(constantPool);
+                field.resolve(constantPool);
             }
         }
     }

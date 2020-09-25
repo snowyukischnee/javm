@@ -7,8 +7,6 @@ import com.tuannh.javm.util.Conversion;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.nio.ByteBuffer;
-
 //    CONSTANT_InvokeDynamic_info {
 //        u1 tag;
 //        u2 bootstrap_method_attr_index;

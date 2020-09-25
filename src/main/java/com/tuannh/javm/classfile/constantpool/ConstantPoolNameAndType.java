@@ -8,8 +8,6 @@ import com.tuannh.javm.util.Conversion;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.nio.ByteBuffer;
-
 //    CONSTANT_NameAndType_info {
 //        u1 tag;
 //        u2 name_index;

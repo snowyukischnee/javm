@@ -1,7 +1,5 @@
 package com.tuannh.javm.classfile.constantpool;
 
-import java.nio.ByteBuffer;
-
 import com.tuannh.javm.classfile.common.DebugPrintConstants;
 import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
 import com.tuannh.javm.util.ByteBufferUtils;

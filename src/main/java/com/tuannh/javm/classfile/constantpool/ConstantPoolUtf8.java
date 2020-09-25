@@ -7,7 +7,6 @@ import com.tuannh.javm.util.Conversion;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 //    CONSTANT_Utf8_info {
