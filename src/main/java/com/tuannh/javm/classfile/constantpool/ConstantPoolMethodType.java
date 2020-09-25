@@ -36,4 +36,10 @@ public class ConstantPoolMethodType extends ConstantPoolInfo implements Resolvab
     public void resolve(ConstantPoolInfo[] constantPool) {
         descriptor = ((ConstantPoolUtf8)constantPool[descriptorIndex - 1]).getValue();
     }
+
+    @Override
+    public String debugPrint() {
+        // TODO
+        return toString();
+    }
 }

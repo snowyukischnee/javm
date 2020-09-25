@@ -36,4 +36,9 @@ public class ConstantPoolDouble extends ConstantPoolInfo implements ImmediatelyR
     public void resolve() {
         value = ByteBuffer.wrap(ByteUtils.concat(highBytes, lowBytes)).getDouble();
     }
+
+    @Override
+    public String debugPrint() {
+        return String.format("%-25s%fd", getTag(), value);
+    }
 }

@@ -7,8 +7,6 @@ import lombok.ToString;
 
 import java.nio.ByteBuffer;
 
-// TODO
-
 //    CONSTANT_InvokeDynamic_info {
 //        u1 tag;
 //        u2 bootstrap_method_attr_index;
@@ -36,5 +34,11 @@ public class ConstantPoolInvokeDynamic extends ConstantPoolInfo implements Resol
     @Override
     public void resolve(ConstantPoolInfo[] obj) {
         // TODO
+    }
+
+    @Override
+    public String debugPrint() {
+        // TODO
+        return toString();
     }
 }

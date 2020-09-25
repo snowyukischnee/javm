@@ -36,4 +36,9 @@ public class ConstantPoolLong extends ConstantPoolInfo implements ImmediatelyRes
     public void resolve() {
         value = ByteBuffer.wrap(ByteUtils.concat(highBytes, lowBytes)).getLong();
     }
+
+    @Override
+    public String debugPrint() {
+        return String.format("%-25s%dl", getTag(), value);
+    }
 }

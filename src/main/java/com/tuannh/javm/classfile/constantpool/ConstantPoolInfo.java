@@ -1,5 +1,6 @@
 package com.tuannh.javm.classfile.constantpool;
 
+import com.tuannh.javm.classfile.common.DebugStr;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -12,6 +13,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public class ConstantPoolInfo {
+public abstract class ConstantPoolInfo implements DebugStr {
     private ConstantPoolTag tag;
 }

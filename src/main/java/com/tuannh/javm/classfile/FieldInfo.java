@@ -1,10 +1,10 @@
 package com.tuannh.javm.classfile;
 
+import com.tuannh.javm.classfile.accessflag.FieldAccessFlag;
 import com.tuannh.javm.classfile.attributeinfo.AttributeInfo;
 import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
 import com.tuannh.javm.classfile.constantpool.ConstantPoolInfo;
 import com.tuannh.javm.classfile.constantpool.ConstantPoolUtf8;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -19,7 +19,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class FieldInfo implements ResolvableWithRequiredObj<ConstantPoolInfo[]> {
-    private AccessFlag[] accessFlag;
+    private FieldAccessFlag[] accessFlag;
     private int nameIndex;
     private int descriptorIndex;
     private int attributesCount;
@@ -27,7 +27,7 @@ public class FieldInfo implements ResolvableWithRequiredObj<ConstantPoolInfo[]> 
     private String name;
     private String descriptor;
 
-    public FieldInfo(AccessFlag[] accessFlag, int nameIndex, int descriptorIndex, int attributesCount, AttributeInfo[] attributes) {
+    public FieldInfo(FieldAccessFlag[] accessFlag, int nameIndex, int descriptorIndex, int attributesCount, AttributeInfo[] attributes) {
         this.accessFlag = accessFlag;
         this.nameIndex = nameIndex;
         this.descriptorIndex = descriptorIndex;

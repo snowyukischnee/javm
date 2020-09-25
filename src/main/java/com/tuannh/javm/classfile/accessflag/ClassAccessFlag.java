@@ -1,4 +1,4 @@
-package com.tuannh.javm.classfile;
+package com.tuannh.javm.classfile.accessflag;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +20,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Getter
-public enum AccessFlag {
+public enum ClassAccessFlag {
     ACC_PUBLIC(0x0001),
     ACC_FINAL(0x0010),
     ACC_SUPER(0x0020),
@@ -32,14 +32,14 @@ public enum AccessFlag {
 
     private int value;
 
-    public static AccessFlag[] getAccessFlags(int flags) {
-        List<AccessFlag> list = new ArrayList<>();
-        for (AccessFlag flag : AccessFlag.values()) {
+    public static ClassAccessFlag[] getAccessFlags(int flags) {
+        List<ClassAccessFlag> list = new ArrayList<>();
+        for (ClassAccessFlag flag : ClassAccessFlag.values()) {
             if ((flag.getValue() & flags) != 0) {
                 list.add(flag);
             }
         }
-        AccessFlag[] ret = new AccessFlag[list.size()];
+        ClassAccessFlag[] ret = new ClassAccessFlag[list.size()];
         ret = list.toArray(ret);
         return ret;
     }

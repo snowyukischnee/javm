@@ -1,5 +1,6 @@
 package com.tuannh.javm.classfile.constantpool;
 
+import com.tuannh.javm.classfile.common.DebugPrintConstants;
 import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
 import com.tuannh.javm.util.ByteUtils;
 import lombok.Getter;
@@ -44,5 +45,10 @@ public class ConstantPoolFieldRef extends ConstantPoolInfo implements Resolvable
     public void resolve(ConstantPoolInfo[] constantPool) {
         clazz = (ConstantPoolClass) constantPool[classIndex - 1];
         nameAndType = (ConstantPoolNameAndType) constantPool[nameAndTypeIndex - 1];
+    }
+
+    @Override
+    public String debugPrint() {
+        return String.format("%-25s#%d.#%d%15s %s.%s:%s", getTag(), classIndex, nameAndTypeIndex, DebugPrintConstants.SEPERATOR, clazz.getName(), nameAndType.getName(), nameAndType.getDescriptor());
     }
 }

@@ -1,5 +1,6 @@
 package com.tuannh.javm.classfile.constantpool;
 
+import com.tuannh.javm.classfile.common.DebugPrintConstants;
 import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
 import lombok.Getter;
 import lombok.ToString;
@@ -30,5 +31,10 @@ public class ConstantPoolString extends ConstantPoolInfo implements ResolvableWi
     @Override
     public void resolve(ConstantPoolInfo[] constantPool) {
         value = ((ConstantPoolUtf8)constantPool[stringIndex - 1]).getValue();
+    }
+
+    @Override
+    public String debugPrint() {
+        return String.format("%-25s#%d%15s %s", getTag(), stringIndex, DebugPrintConstants.SEPERATOR, value);
     }
 }

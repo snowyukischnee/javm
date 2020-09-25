@@ -1,5 +1,6 @@
 package com.tuannh.javm.classfile.constantpool;
 
+import com.tuannh.javm.classfile.common.DebugPrintConstants;
 import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
 import com.tuannh.javm.util.ByteUtils;
 import lombok.Getter;
@@ -48,5 +49,10 @@ public class ConstantPoolNameAndType extends ConstantPoolInfo implements Resolva
     public void resolve(ConstantPoolInfo[] constantPool) {
         name = ((ConstantPoolUtf8)constantPool[nameIndex - 1]).getValue();
         descriptor = ((ConstantPoolUtf8)constantPool[descriptorIndex - 1]).getValue();
+    }
+
+    @Override
+    public String debugPrint() {
+        return String.format("%-25s#%d.#%d%15s %s:%s", getTag(), nameIndex, descriptorIndex, DebugPrintConstants.SEPERATOR, name, descriptor);
     }
 }

@@ -26,4 +26,9 @@ public class ConstantPoolInteger extends ConstantPoolInfo implements Immediately
     public void resolve() {
         value = ByteBuffer.wrap(bytes).getInt();
     }
+
+    @Override
+    public String debugPrint() {
+        return String.format("%-25s%d", getTag(), value);
+    }
 }

@@ -1,5 +1,7 @@
 package com.tuannh.javm.classfile;
 
+import com.tuannh.javm.classfile.accessflag.ClassAccessFlag;
+import com.tuannh.javm.classfile.accessflag.FieldAccessFlag;
 import com.tuannh.javm.classfile.attributeinfo.AttributeInfo;
 import com.tuannh.javm.classfile.common.ImmediatelyResolvable;
 import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
@@ -52,7 +54,7 @@ public class Parser {
         }
         ConstantPoolInfo[] constantPool = parseConstantPool(stream, constantPoolCount - 1);
         resolveConstantPoolInfo(constantPool);
-        AccessFlag[] accessFlag = AccessFlag.getAccessFlags(stream.readShort());
+        ClassAccessFlag[] accessFlag = ClassAccessFlag.getAccessFlags(stream.readShort());
         int thisClassIdx = stream.readUnsignedShort();
         int superClassIdx = stream.readUnsignedShort();
         ConstantPoolClass thisClass = (ConstantPoolClass) constantPool[thisClassIdx - 1];
@@ -81,7 +83,7 @@ public class Parser {
     public static FieldInfo[] parseFieldInfo(DataInputStream stream, int fieldLength, ConstantPoolInfo[] constantPool) throws IOException {
         FieldInfo[] fields = new FieldInfo[fieldLength];
         for (int i = 0; i < fieldLength; i++) {
-            AccessFlag[] accessFlag = AccessFlag.getAccessFlags(stream.readShort());
+            FieldAccessFlag[] accessFlag = FieldAccessFlag.getAccessFlags(stream.readShort());
             int nameIndex = stream.readUnsignedShort();
             int descriptorIndex = stream.readUnsignedShort();
             int attributesCount = stream.readUnsignedShort();
@@ -98,6 +100,7 @@ public class Parser {
             int attributeLength = stream.readInt();
             stream.skipBytes(attributeLength);
             attributes[i] = new AttributeInfo(attributeNameIndex, attributeLength);
+//            attributes[i].resolve(constantPool);
         }
         return attributes;
     }

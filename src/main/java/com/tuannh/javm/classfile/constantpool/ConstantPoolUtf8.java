@@ -37,4 +37,9 @@ public class ConstantPoolUtf8 extends ConstantPoolInfo implements ImmediatelyRes
     public void resolve() {
         value = new String(bytes, StandardCharsets.UTF_8);
     }
+
+    @Override
+    public String debugPrint() {
+        return String.format("%-25s%s", getTag(), value);
+    }
 }

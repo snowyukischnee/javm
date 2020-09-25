@@ -26,4 +26,9 @@ public class ConstantPoolFloat extends ConstantPoolInfo implements ImmediatelyRe
     public void resolve() {
         value = ByteBuffer.wrap(bytes).getFloat();
     }
+
+    @Override
+    public String debugPrint() {
+        return String.format("%-25s%ff", getTag(), value);
+    }
 }

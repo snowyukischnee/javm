@@ -7,8 +7,6 @@ import lombok.ToString;
 
 import java.nio.ByteBuffer;
 
-// TODO
-
 //    CONSTANT_MethodHandle_info {
 //        u1 tag;
 //        u1 reference_kind;
@@ -36,5 +34,11 @@ public class ConstantPoolMethodHandle extends ConstantPoolInfo implements Resolv
     @Override
     public void resolve(ConstantPoolInfo[] obj) {
         // TODO
+    }
+
+    @Override
+    public String debugPrint() {
+        // TODO
+        return toString();
     }
 }
