@@ -1,5 +1,6 @@
 package com.tuannh.javm.classfile.constantpool;
 
+import com.tuannh.javm.classfile.common.DebugPrintConstants;
 import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
 import com.tuannh.javm.util.ByteBufferUtils;
 import com.tuannh.javm.util.Conversion;
@@ -39,7 +40,6 @@ public class ConstantPoolMethodType extends ConstantPoolInfo implements Resolvab
 
     @Override
     public String debugPrint() {
-        // TODO
-        return toString();
+        return String.format("%-25s#%d%15s %s", getTag(), descriptorIndex, DebugPrintConstants.SEPERATOR, descriptor);
     }
 }
