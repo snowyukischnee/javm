@@ -10,10 +10,10 @@ import com.tuannh.javm.util.Conversion;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+
+import static com.tuannh.javm.classfile.attributeinfo.stackmapframe.StackMapFrameParser.parseStackMapFrame;
 
 //StackMapTable_attribute {
 //    u2              attribute_name_index;
@@ -32,23 +32,7 @@ public class AttributeInfoStackMapTable extends AttributeInfo {
     public AttributeInfoStackMapTable(int attributeNameIndex, int attributeLength, byte[] bytes, ConstantPoolInfo[] constantPool) throws IOException {
         super(attributeNameIndex, attributeLength, constantPool);
         numberOfEntries = ByteBufferUtils.getUnsignedShort(ByteUtils.slice(bytes, 0, 2));
-        int currentRead = 2;
-        frames = new StackMapFrame[numberOfEntries];
-        for (int i = 0; i < numberOfEntries; i++) {
-            StackMapFrameTag tag = StackMapFrameTag.fromInt(Conversion.byteToInt(ByteBuffer.wrap(ByteUtils.slice(bytes, currentRead, currentRead + 1)).get()));
-            // TODO
-            switch (tag) {
-                case SAME_FRAME:
-                    frames[i] = new StackMapFrameSame(tag);
-                    break;
-                case SAME_LOCALS_1_STACK_ITEM_FRAME:
-                case SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED:
-                case CHOP_FRAME:
-                case SAME_FRAME_EXTENDED:
-                case APPEND_FRAME:
-                case FULL_FRAME:
-            }
-        }
+        frames = parseStackMapFrame(ByteUtils.slice(bytes, 2, bytes.length), numberOfEntries, constantPool);
     }
 
     @Override

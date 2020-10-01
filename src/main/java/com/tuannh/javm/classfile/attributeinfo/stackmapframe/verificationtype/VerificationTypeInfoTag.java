@@ -1,11 +1,11 @@
-package com.tuannh.javm.classfile.attributeinfo.stackmapframe;
+package com.tuannh.javm.classfile.attributeinfo.stackmapframe.verificationtype;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum VerificationTypeInfo {
+public enum VerificationTypeInfoTag {
     TOP_VARIABLE_INFO((byte)0),
     INTEGER_VARIABLE_INFO((byte)1),
     FLOAT_VARIABLE_INFO((byte)2),
@@ -18,12 +18,13 @@ public enum VerificationTypeInfo {
 
     private byte value;
 
-    private VerificationTypeInfo getVerificationTypeInfo(byte x) {
-        for (VerificationTypeInfo tag : VerificationTypeInfo.values()) {
+    @SuppressWarnings("java:S112")
+    public static VerificationTypeInfoTag getVerificationTypeInfoTag(byte x) {
+        for (VerificationTypeInfoTag tag : VerificationTypeInfoTag.values()) {
             if (x == tag.getValue()) {
                 return tag;
             }
         }
-        throw new RuntimeException(String.format("VerificationTypeInfo %d is not defined", x));
+        throw new RuntimeException(String.format("VerificationTypeInfoTag %d is not defined", x));
     }
 }
