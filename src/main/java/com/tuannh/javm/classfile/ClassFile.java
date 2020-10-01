@@ -4,9 +4,13 @@ import com.tuannh.javm.classfile.accessflag.ClassAccessFlag;
 import com.tuannh.javm.classfile.common.DebugPrint;
 import com.tuannh.javm.classfile.constantpool.ConstantPoolClass;
 import com.tuannh.javm.classfile.constantpool.ConstantPoolInfo;
+import com.tuannh.javm.classfile.fieldinfo.FieldInfo;
+import com.tuannh.javm.classfile.methodinfo.MethodInfo;
 import lombok.*;
 
 import java.util.Arrays;
+
+import static com.tuannh.javm.classfile.common.DebugPrintConstants.PADDING;
 
 // https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html
 
@@ -46,37 +50,45 @@ public class ClassFile implements DebugPrint {
     private ConstantPoolClass[] interfaces;
     private int fieldsCount;
     private FieldInfo[] fields;
+    private int methodsCount;
+    private MethodInfo[] methods;
 
     @Override
-    public String debugPrint() {
+    public String debugPrint(int padding) {
         StringBuilder builder = new StringBuilder();
         builder.append("ClassFile\n");
-        builder.append(String.format("magic:\t0x%s%n", Integer.toHexString(magic).toUpperCase()));
-        builder.append(String.format("minor_version:\t%d (0x%s)%n", minorVersion, Integer.toHexString(minorVersion).toUpperCase()));
-        builder.append(String.format("major_version:\t%d (0x%s)%n", majorVersion, Integer.toHexString(majorVersion).toUpperCase()));
-        builder.append(String.format("access_flags:\t%s%n", Arrays.toString(accessFlags)));
-        builder.append(String.format("this_class:\t%s%n", thisClass.debugPrint()));
-        builder.append(String.format("super_class:\t%s%n", superClass.debugPrint()));
+        builder.append(String.format("%smagic:\t0x%s%n", PADDING[padding], Integer.toHexString(magic).toUpperCase()));
+        builder.append(String.format("%sminor_version:\t%d (0x%s)%n", PADDING[padding], minorVersion, Integer.toHexString(minorVersion).toUpperCase()));
+        builder.append(String.format("%smajor_version:\t%d (0x%s)%n", PADDING[padding], majorVersion, Integer.toHexString(majorVersion).toUpperCase()));
+        builder.append(String.format("%saccess_flags:\t%s%n", PADDING[padding], Arrays.toString(accessFlags)));
+        builder.append(String.format("%sthis_class:\t%s%n", PADDING[padding], thisClass.debugPrint(0)));
+        builder.append(String.format("%ssuper_class:\t%s%n", PADDING[padding], superClass.debugPrint(0)));
         // ---
+        builder.append(PADDING[padding]);
         builder.append(String.format("constant_pool_count: %d\t", constantPoolCount));
         builder.append(String.format("interfaces_count: %d\t", interfacesCount));
         builder.append(String.format("fields_count: %d\t", fieldsCount));
+        builder.append(String.format("methods_count: %d\t", methodsCount));
         builder.append("\n");
         // ---
-        builder.append(String.format("Constant pool(count=%d):%n", constantPoolCount));
+        builder.append(String.format("%sConstant pool(count=%d):%n", PADDING[padding], constantPoolCount));
         for (int i = 0; i < constantPoolCount - 1; i++) {
             if (constantPool[i] == null) {
                 continue;
             }
-            builder.append(String.format("\t#%d\t%s%n", i + 1, constantPool[i].debugPrint()));
+            builder.append(String.format("%s\t#%d\t%s%n", PADDING[padding], i + 1, constantPool[i].debugPrint(padding + 1)));
         }
         builder.append(String.format("Interfaces(count=%d):%n", interfacesCount));
         for (int i = 0; i < interfacesCount; i++) {
-            builder.append(String.format("\t#%d\t%s%n", i + 1, interfaces[i].debugPrint()));
+            builder.append(String.format("%s\t#%d\t%s%n", PADDING[padding], i + 1, interfaces[i].debugPrint(padding + 1)));
         }
         builder.append(String.format("Fields(count=%d):%n", fieldsCount));
         for (int i = 0; i < fieldsCount; i++) {
-            builder.append(String.format("\t#%d%n%s%n", i + 1, fields[i].debugPrint()));
+            builder.append(String.format("%s\t#%d\t%s%n", PADDING[padding], i + 1, fields[i].debugPrint(padding + 1)));
+        }
+        builder.append(String.format("Methods (count=%d):%n", methodsCount));
+        for (int i = 0; i < methodsCount; i++) {
+            builder.append(String.format("%s\t#%d\t%s%n", PADDING[padding], i + 1, methods[i].debugPrint(padding + 1)));
         }
         return builder.toString();
     }

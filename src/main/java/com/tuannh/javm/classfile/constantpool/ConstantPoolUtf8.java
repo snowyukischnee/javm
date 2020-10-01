@@ -9,6 +9,8 @@ import lombok.ToString;
 
 import java.nio.charset.StandardCharsets;
 
+import static com.tuannh.javm.classfile.common.DebugPrintConstants.PADDING;
+
 //    CONSTANT_Utf8_info {
 //        u1 tag;
 //        u2 length;
@@ -40,7 +42,7 @@ public class ConstantPoolUtf8 extends ConstantPoolInfo implements ImmediatelyRes
     }
 
     @Override
-    public String debugPrint() {
+    public String debugPrint(int padding) {
         return String.format("%-25s%s", getTag(), value);
     }
 }

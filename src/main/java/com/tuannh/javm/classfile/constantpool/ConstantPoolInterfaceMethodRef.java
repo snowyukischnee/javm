@@ -8,6 +8,8 @@ import com.tuannh.javm.util.Conversion;
 import lombok.Getter;
 import lombok.ToString;
 
+import static com.tuannh.javm.classfile.common.DebugPrintConstants.PADDING;
+
 //    CONSTANT_InterfaceMethodref_info {
 //        u1 tag;
 //        u2 class_index;
@@ -48,7 +50,7 @@ public class ConstantPoolInterfaceMethodRef extends ConstantPoolInfo implements 
     }
 
     @Override
-    public String debugPrint() {
+    public String debugPrint(int padding) {
         return String.format("%-25s#%d.#%d%15s %s.%s:%s", getTag(), classIndex, nameAndTypeIndex, DebugPrintConstants.SEPERATOR, clazz.getName(), nameAndType.getName(), nameAndType.getDescriptor());
     }
 }

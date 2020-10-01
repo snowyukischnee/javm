@@ -6,6 +6,8 @@ import lombok.ToString;
 
 import java.nio.ByteBuffer;
 
+import static com.tuannh.javm.classfile.common.DebugPrintConstants.PADDING;
+
 //    CONSTANT_Integer_info {
 //        u1 tag;
 //        u4 bytes;
@@ -28,7 +30,7 @@ public class ConstantPoolInteger extends ConstantPoolInfo implements Immediately
     }
 
     @Override
-    public String debugPrint() {
+    public String debugPrint(int padding) {
         return String.format("%-25s%d", getTag(), value);
     }
 }

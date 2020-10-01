@@ -7,6 +7,8 @@ import lombok.ToString;
 
 import java.nio.ByteBuffer;
 
+import static com.tuannh.javm.classfile.common.DebugPrintConstants.PADDING;
+
 //    CONSTANT_Double_info {
 //        u1 tag;
 //        u4 high_bytes;
@@ -38,7 +40,7 @@ public class ConstantPoolDouble extends ConstantPoolInfo implements ImmediatelyR
     }
 
     @Override
-    public String debugPrint() {
+    public String debugPrint(int padding) {
         return String.format("%-25s%fd", getTag(), value);
     }
 }

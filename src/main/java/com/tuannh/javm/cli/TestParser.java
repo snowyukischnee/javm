@@ -1,5 +1,6 @@
 package com.tuannh.javm.cli;
 
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.util.List;
@@ -9,7 +10,7 @@ class TestInheritance {
 }
 
 interface TestInterface {
-    void gg();
+    void gg() throws IOException;
 
     static void ff() { }
 }
@@ -30,8 +31,13 @@ public class TestParser extends TestInheritance implements TestInterface {
     }
 
     @Override
-    public void gg() {
-        System.out.println(MAGICTEST);
+    public void gg() throws IOException {
+        try {
+            System.out.println(MAGICTEST);
+            throw new IOException("dd");
+        } catch (IOException e) {
+            throw e;
+        }
     }
 
     protected static TestInheritance getV(TestInterface x) {

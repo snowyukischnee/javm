@@ -39,7 +39,7 @@ public class ConstantPoolMethodHandle extends ConstantPoolInfo implements Resolv
     }
 
     @Override
-    public String debugPrint() {
+    public String debugPrint(int padding) {
         // TODO
         return toString();
     }

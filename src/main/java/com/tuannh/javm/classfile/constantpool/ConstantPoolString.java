@@ -7,6 +7,8 @@ import com.tuannh.javm.util.Conversion;
 import lombok.Getter;
 import lombok.ToString;
 
+import static com.tuannh.javm.classfile.common.DebugPrintConstants.PADDING;
+
 //    CONSTANT_String_info {
 //        u1 tag;
 //        u2 string_index;
@@ -34,7 +36,7 @@ public class ConstantPoolString extends ConstantPoolInfo implements ResolvableWi
     }
 
     @Override
-    public String debugPrint() {
+    public String debugPrint(int padding) {
         return String.format("%-25s#%d%15s %s", getTag(), stringIndex, DebugPrintConstants.SEPERATOR, value);
     }
 }

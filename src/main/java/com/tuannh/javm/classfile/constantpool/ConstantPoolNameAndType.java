@@ -8,6 +8,8 @@ import com.tuannh.javm.util.Conversion;
 import lombok.Getter;
 import lombok.ToString;
 
+import static com.tuannh.javm.classfile.common.DebugPrintConstants.PADDING;
+
 //    CONSTANT_NameAndType_info {
 //        u1 tag;
 //        u2 name_index;
@@ -52,7 +54,7 @@ public class ConstantPoolNameAndType extends ConstantPoolInfo implements Resolva
     }
 
     @Override
-    public String debugPrint() {
+    public String debugPrint(int padding) {
         return String.format("%-25s#%d.#%d%15s %s:%s", getTag(), nameIndex, descriptorIndex, DebugPrintConstants.SEPERATOR, name, descriptor);
     }
 }

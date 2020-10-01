@@ -6,6 +6,8 @@ import com.tuannh.javm.util.Conversion;
 import lombok.Getter;
 import lombok.ToString;
 
+import static com.tuannh.javm.classfile.common.DebugPrintConstants.PADDING;
+
 //ConstantValue_attribute {
 //    u2 attribute_name_index;
 //    u4 attribute_length;
@@ -34,31 +36,29 @@ public class AttributeInfoConstantValue extends AttributeInfo {
     private ConstantPoolInfo value;
 
     @SuppressWarnings("java:S112")
-    public AttributeInfoConstantValue(int attributeNameIndex, int attributeLength, short constantValueIndex) {
-        super(attributeNameIndex, attributeLength);
+    public AttributeInfoConstantValue(int attributeNameIndex, int attributeLength, short constantValueIndex, ConstantPoolInfo[] constantPool) {
+        super(attributeNameIndex, attributeLength, constantPool);
         if (attributeLength != 2) {
             throw new RuntimeException("The value of the attribute_length item of a ConstantValue_attribute structure must be two");
         }
         this.constantValueIndex = Conversion.shortToInt(constantValueIndex);
+
+        value = constantPool[constantValueIndex - 1];
     }
 
     @SuppressWarnings("java:S112")
-    public AttributeInfoConstantValue(int attributeNameIndex, int attributeLength, byte[] bytes) {
-        super(attributeNameIndex, attributeLength);
+    public AttributeInfoConstantValue(int attributeNameIndex, int attributeLength, byte[] bytes, ConstantPoolInfo[] constantPool) {
+        super(attributeNameIndex, attributeLength, constantPool);
         if (attributeLength != 2) {
             throw new RuntimeException("The value of the attribute_length item of a ConstantValue_attribute structure must be two");
         }
         this.constantValueIndex = ByteBufferUtils.getUnsignedShort(bytes);
-    }
 
-    @Override
-    public void resolve(ConstantPoolInfo[] constantPool) {
-        super.resolve(constantPool);
         value = constantPool[constantValueIndex - 1];
     }
 
     @Override
-    public String debugPrint() {
-        return String.format("ConstantValue:\t\t%s", value.debugPrint());
+    public String debugPrint(int padding) {
+        return String.format("ConstantValue:\t\t%s", value.debugPrint(0));
     }
 }

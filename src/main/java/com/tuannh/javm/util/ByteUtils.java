@@ -12,10 +12,21 @@ public class ByteUtils {
         return Arrays.copyOfRange(arr, start, end);
     }
 
-    public static byte[] concat(byte[] left, byte[] right) {
-        byte[] ret = new byte[left.length + right.length];
-        System.arraycopy(left, 0, ret, 0, left.length);
-        System.arraycopy(right, 0, ret, left.length, right.length);
+    public static byte[] concat(byte[]... bytesArr) {
+        int len = 0;
+        for (byte[] bytes : bytesArr) {
+            if (bytes != null) {
+                len += bytes.length;
+            }
+        }
+        byte[] ret = new byte[len];
+        int currentLen = 0;
+        for (byte[] bytes : bytesArr) {
+            if (bytes != null) {
+                System.arraycopy(bytes, 0, ret, currentLen, bytes.length);
+                currentLen += bytes.length;
+            }
+        }
         return ret;
     }
 

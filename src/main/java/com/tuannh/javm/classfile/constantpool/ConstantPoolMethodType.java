@@ -7,6 +7,8 @@ import com.tuannh.javm.util.Conversion;
 import lombok.Getter;
 import lombok.ToString;
 
+import static com.tuannh.javm.classfile.common.DebugPrintConstants.PADDING;
+
 //    CONSTANT_MethodType_info {
 //        u1 tag;
 //        u2 descriptor_index;
@@ -39,7 +41,7 @@ public class ConstantPoolMethodType extends ConstantPoolInfo implements Resolvab
     }
 
     @Override
-    public String debugPrint() {
+    public String debugPrint(int padding) {
         return String.format("%-25s#%d%15s %s", getTag(), descriptorIndex, DebugPrintConstants.SEPERATOR, descriptor);
     }
 }
