@@ -7,8 +7,6 @@ import lombok.ToString;
 
 import java.util.Arrays;
 
-import static com.tuannh.javm.classfile.common.DebugPrintConstants.PADDING;
-
 @AllArgsConstructor
 @ToString
 @Getter

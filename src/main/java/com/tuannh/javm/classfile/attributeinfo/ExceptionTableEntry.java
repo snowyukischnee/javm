@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
-import static com.tuannh.javm.classfile.common.DebugPrintConstants.PADDING;
-
 @AllArgsConstructor
 @Getter
 @ToString

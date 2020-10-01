@@ -6,4 +6,8 @@ public class Conversion {
     public static int shortToInt(short x) {
         return x & 0xffff;
     }
+
+    public static int byteToInt(byte x) {
+        return Byte.toUnsignedInt(x);
+    }
 }

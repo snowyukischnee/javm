@@ -30,9 +30,4 @@ public abstract class AttributeInfo implements DebugPrint {
         this.constantPool = constantPool;
         attributeName = ((ConstantPoolUtf8)constantPool[attributeNameIndex - 1]).getValue();
     }
-
-    @Override
-    public String debugPrint(int padding) {
-        return String.format("%sAttributeInfo(%s)", PADDING[padding], attributeName);
-    }
 }
