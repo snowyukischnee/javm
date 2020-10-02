@@ -11,12 +11,16 @@ import static com.tuannh.javm.classfile.attributeinfo.stackmapframe.verification
 import static com.tuannh.javm.classfile.common.DebugPrintConstants.PADDING;
 
 @Getter
-public class StackMapFrameSameLocals1StackItem extends StackMapFrame {
-    private VerificationTypeInfo[] stack;
+public class StackMapFrameAppend extends StackMapFrame {
+    private int offsetDelta;
+    private int numberOfLocals;
+    private VerificationTypeInfo[] locals;
 
-    public StackMapFrameSameLocals1StackItem(int frameType, DataInputStream stream, ConstantPoolInfo[] constantPool) throws IOException {
-        super(frameType, StackMapFrameTag.SAME_LOCALS_1_STACK_ITEM_FRAME);
-        stack = parseVerificationTypeInfo(stream, 1, constantPool);
+    public StackMapFrameAppend(int frameType, DataInputStream stream, int localsLength, ConstantPoolInfo[] constantPool) throws IOException {
+        super(frameType, StackMapFrameTag.APPEND_FRAME);
+        offsetDelta = stream.readUnsignedShort();
+        numberOfLocals = localsLength;
+        locals = parseVerificationTypeInfo(stream, numberOfLocals, constantPool);
     }
 
     @Override
@@ -24,8 +28,11 @@ public class StackMapFrameSameLocals1StackItem extends StackMapFrame {
         StringBuilder builder = new StringBuilder();
         builder.append(String.format("frame_type = %d\t/* %s */%n", getFrameType(), getTag()));
         // ----------------------------------------
-        builder.append(String.format("%sstack:%n", PADDING[padding]));
-        builder.append(String.format("%s\t%s%n", PADDING[padding], stack[0].debugPrint(padding + 1)));
+        builder.append(String.format("%slocals(entries=%d):%n", PADDING[padding], numberOfLocals));
+        for (int i = 0; i < numberOfLocals; i++) {
+            builder.append(String.format("%s\t%s%n", PADDING[padding], locals[i].debugPrint(padding + 1)));
+
+        }
         return builder.toString();
     }
 }

@@ -33,12 +33,12 @@ public class ConstantPoolInvokeDynamic extends ConstantPoolInfo implements Resol
 
     @Override
     public void resolve(ConstantPoolInfo[] obj) {
-        // TODO
+        // TODO implement resolve method
     }
 
     @Override
     public String debugPrint(int padding) {
-        // TODO
+        // TODO debug print
         return toString();
     }
 }

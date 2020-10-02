@@ -1,7 +1,5 @@
 package com.tuannh.javm.classfile.attributeinfo.stackmapframe.verificationtype;
 
-import com.tuannh.javm.classfile.constantpool.ConstantPoolClass;
-import com.tuannh.javm.classfile.constantpool.ConstantPoolInfo;
 import com.tuannh.javm.util.ByteBufferUtils;
 import lombok.Getter;
 

@@ -4,17 +4,30 @@ import com.tuannh.javm.util.ByteBufferUtils;
 import com.tuannh.javm.util.ByteUtils;
 import lombok.Getter;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+
+import static com.tuannh.javm.classfile.common.DebugPrintConstants.PADDING;
+
 @Getter
 public class StackMapFrameSameExtended extends StackMapFrame {
     private int offsetDelta;
 
-    public StackMapFrameSameExtended(byte[] bytes) {
-        super(StackMapFrameTag.SAME_FRAME_EXTENDED);
+    public StackMapFrameSameExtended(int frameType, byte[] bytes) {
+        super(frameType, StackMapFrameTag.SAME_FRAME_EXTENDED);
         offsetDelta = ByteBufferUtils.getUnsignedShort(ByteUtils.slice(bytes, 0, 2));
+    }
+
+    public StackMapFrameSameExtended(int frameType, DataInputStream stream) throws IOException {
+        super(frameType, StackMapFrameTag.SAME_FRAME_EXTENDED);
+        offsetDelta = stream.readUnsignedShort();
     }
 
     @Override
     public String debugPrint(int padding) {
-        return String.format("SameExtended: offset_delta=%d", offsetDelta);
+        StringBuilder builder = new StringBuilder();
+        builder.append(String.format("frame_type = %d\t/* %s */%n", getFrameType(), getTag()));
+        builder.append(String.format("%soffset_delta = %d%n", PADDING[padding], offsetDelta));
+        return builder.toString();
     }
 }

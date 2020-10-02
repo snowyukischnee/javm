@@ -17,6 +17,6 @@ public class ExceptionTableEntry implements DebugPrint {
 
     @Override
     public String debugPrint(int padding) {
-        return String.format("start: 0x%s\t\tend: 0x%s\t\t, handle: 0x%s\t\t, catch_type: 0x%s", startPc, endPc, handlePc, catchType);
+        return String.format("start: 0x%s,\t\tend: 0x%s,\t\thandle: 0x%s,\t\tcatch_type: 0x%s", startPc, endPc, handlePc, catchType);
     }
 }

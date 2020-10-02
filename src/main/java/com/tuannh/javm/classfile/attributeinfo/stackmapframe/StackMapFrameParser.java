@@ -14,26 +14,29 @@ public class StackMapFrameParser {
     public static StackMapFrame[] parseStackMapFrame(DataInputStream stream, int numberOfEntries, ConstantPoolInfo[] constantPool) throws IOException {
         StackMapFrame[] frames = new StackMapFrame[numberOfEntries];
         for (int i = 0; i < numberOfEntries; i++) {
-            StackMapFrameTag tag = StackMapFrameTag.fromInt(stream.readByte());
-            // TODO
+            int frameType = stream.readUnsignedByte();
+            StackMapFrameTag tag = StackMapFrameTag.fromInt(frameType);
             switch (tag) {
                 case SAME_FRAME:
-                    frames[i] = new StackMapFrameSame();
+                    frames[i] = new StackMapFrameSame(frameType);
                     break;
                 case SAME_LOCALS_1_STACK_ITEM_FRAME:
-                    frames[i] = new StackMapFrameSameLocals1StackItem(ByteUtils.readBytes(stream, 1), constantPool);
+                    frames[i] = new StackMapFrameSameLocals1StackItem(frameType, stream, constantPool);
                     break;
                 case SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED:
-                    frames[i] = new StackMapFrameSameLocals1StackItem(ByteUtils.readBytes(stream, 3), constantPool);
+                    frames[i] = new StackMapFrameSameLocals1StackItemExtended(frameType, stream, constantPool);
                     break;
                 case CHOP_FRAME:
-                    frames[i] = new StackMapFrameSameLocals1StackItem(ByteUtils.readBytes(stream, 2), constantPool);
+                    frames[i] = new StackMapFrameChop(frameType, ByteUtils.readBytes(stream, 2));
                     break;
                 case SAME_FRAME_EXTENDED:
+                    frames[i] = new StackMapFrameSameExtended(frameType, stream);
                     break;
                 case APPEND_FRAME:
+                    frames[i] = new StackMapFrameAppend(frameType, stream, frameType - 251, constantPool);
                     break;
                 case FULL_FRAME:
+                    frames[i] = new StackMapFrameFull(frameType, stream, constantPool);
                     break;
                 default:
                     throw new RuntimeException("Unrecognized StackMapFrame");

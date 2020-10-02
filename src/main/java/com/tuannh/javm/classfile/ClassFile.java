@@ -71,24 +71,25 @@ public class ClassFile implements DebugPrint {
         builder.append(String.format("methods_count: %d\t", methodsCount));
         builder.append("\n");
         // ---
+        final String TABLE_ITEM_FMT = "%s\t#%d\t%s%n";
         builder.append(String.format("%sConstant pool(count=%d):%n", PADDING[padding], constantPoolCount));
         for (int i = 0; i < constantPoolCount - 1; i++) {
             if (constantPool[i] == null) {
                 continue;
             }
-            builder.append(String.format("%s\t#%d\t%s%n", PADDING[padding], i + 1, constantPool[i].debugPrint(padding + 1)));
+            builder.append(String.format(TABLE_ITEM_FMT, PADDING[padding], i + 1, constantPool[i].debugPrint(padding + 1)));
         }
         builder.append(String.format("Interfaces(count=%d):%n", interfacesCount));
         for (int i = 0; i < interfacesCount; i++) {
-            builder.append(String.format("%s\t#%d\t%s%n", PADDING[padding], i + 1, interfaces[i].debugPrint(padding + 1)));
+            builder.append(String.format(TABLE_ITEM_FMT, PADDING[padding], i + 1, interfaces[i].debugPrint(padding + 1)));
         }
         builder.append(String.format("Fields(count=%d):%n", fieldsCount));
         for (int i = 0; i < fieldsCount; i++) {
-            builder.append(String.format("%s\t#%d\t%s%n", PADDING[padding], i + 1, fields[i].debugPrint(padding + 1)));
+            builder.append(String.format(TABLE_ITEM_FMT, PADDING[padding], i + 1, fields[i].debugPrint(padding + 1)));
         }
         builder.append(String.format("Methods (count=%d):%n", methodsCount));
         for (int i = 0; i < methodsCount; i++) {
-            builder.append(String.format("%s\t#%d\t%s%n", PADDING[padding], i + 1, methods[i].debugPrint(padding + 1)));
+            builder.append(String.format(TABLE_ITEM_FMT, PADDING[padding], i + 1, methods[i].debugPrint(padding + 1)));
         }
         return builder.toString();
     }

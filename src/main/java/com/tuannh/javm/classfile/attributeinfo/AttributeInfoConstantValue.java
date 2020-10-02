@@ -6,8 +6,6 @@ import com.tuannh.javm.util.Conversion;
 import lombok.Getter;
 import lombok.ToString;
 
-import static com.tuannh.javm.classfile.common.DebugPrintConstants.PADDING;
-
 //ConstantValue_attribute {
 //    u2 attribute_name_index;
 //    u4 attribute_length;

@@ -9,8 +9,6 @@ import lombok.ToString;
 
 import java.nio.charset.StandardCharsets;
 
-import static com.tuannh.javm.classfile.common.DebugPrintConstants.PADDING;
-
 //    CONSTANT_Utf8_info {
 //        u1 tag;
 //        u2 length;

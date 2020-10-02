@@ -35,12 +35,12 @@ public class ConstantPoolMethodHandle extends ConstantPoolInfo implements Resolv
 
     @Override
     public void resolve(ConstantPoolInfo[] obj) {
-        // TODO
+        // TODO implement resolve method
     }
 
     @Override
     public String debugPrint(int padding) {
-        // TODO
+        // TODO debug print
         return toString();
     }
 }

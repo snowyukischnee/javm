@@ -7,8 +7,6 @@ import lombok.ToString;
 
 import java.nio.ByteBuffer;
 
-import static com.tuannh.javm.classfile.common.DebugPrintConstants.PADDING;
-
 //    CONSTANT_Double_info {
 //        u1 tag;
 //        u4 high_bytes;

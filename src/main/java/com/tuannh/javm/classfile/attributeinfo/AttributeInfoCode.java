@@ -145,19 +145,20 @@ public class AttributeInfoCode extends AttributeInfo {
         builder.append(String.format("max_local: %d\t", maxLocals));
         builder.append("\n");
         // ---------------------------------------------------------------------
+        final String TABLE_ITEM_FMT = "%s\t#%d: %s%n";
         for (int i = 0; i < codeLength; i++) {
             if (instructions[i] != null) {
-                builder.append(String.format("%s\t#%d: %s%n", PADDING[padding], i, instructions[i].debugPrint(padding + 1)));
+                builder.append(String.format(TABLE_ITEM_FMT, PADDING[padding], i, instructions[i].debugPrint(padding + 1)));
             }
         }
         builder.append(String.format("%sexception_table(count=%d):%n", PADDING[padding], exceptionTableLength));
         for (int i = 0; i < exceptionTableLength; i++) {
-            builder.append(String.format("%s\t#%d: %s%n", PADDING[padding], i, exceptionTable[i].debugPrint(padding + 1)));
+            builder.append(String.format(TABLE_ITEM_FMT, PADDING[padding], i, exceptionTable[i].debugPrint(padding + 1)));
         }
         builder.append(String.format("%sattributes(count=%d):%n", PADDING[padding], attributesCount));
         for (int i = 0; i < attributesCount; i++) {
             if (attributes[i] != null) {
-                builder.append(String.format("%s\t#%d: %s%n", PADDING[padding], i, attributes[i].debugPrint(padding + 1)));
+                builder.append(String.format(TABLE_ITEM_FMT, PADDING[padding], i, attributes[i].debugPrint(padding + 1)));
             }
         }
         return builder.toString();

@@ -9,5 +9,6 @@ import lombok.ToString;
 @Getter
 @ToString
 public abstract class StackMapFrame implements DebugPrint {
+    private int frameType;
     private StackMapFrameTag tag;
 }

@@ -7,8 +7,6 @@ import com.tuannh.javm.util.Conversion;
 import lombok.Getter;
 import lombok.ToString;
 
-import static com.tuannh.javm.classfile.common.DebugPrintConstants.PADDING;
-
 //    CONSTANT_Class_info {
 //        u1 tag;
 //        u2 name_index;
