@@ -1,6 +1,7 @@
 package com.tuannh.javm.classfile;
 
 import com.tuannh.javm.classfile.accessflag.ClassAccessFlag;
+import com.tuannh.javm.classfile.attributeinfo.AttributeInfo;
 import com.tuannh.javm.classfile.constantpool.*;
 import com.tuannh.javm.classfile.fieldinfo.FieldInfo;
 import com.tuannh.javm.classfile.methodinfo.MethodInfo;
@@ -10,6 +11,7 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import static com.tuannh.javm.classfile.attributeinfo.AttributeInfoParser.parseAttributeInfo;
 import static com.tuannh.javm.classfile.constantpool.ConstantPoolParser.parseConstantPool;
 import static com.tuannh.javm.classfile.constantpool.ConstantPoolParser.resolveConstantPoolInfo;
 import static com.tuannh.javm.classfile.fieldinfo.FieldInfoParser.parseFieldInfo;
@@ -68,6 +70,8 @@ public class ClassfileParser {
         FieldInfo[] fields = parseFieldInfo(stream, fieldsCount, constantPool);
         int methodsCount = stream.readUnsignedShort();
         MethodInfo[] methods = parseMethodInfo(stream, methodsCount, constantPool);
+        int attributeCount = stream.readUnsignedShort();
+        AttributeInfo[] attributes = parseAttributeInfo(stream, attributeCount, constantPool);
         return new ClassFile(
                 magic,
                 minorVersion,
@@ -82,7 +86,9 @@ public class ClassfileParser {
                 fieldsCount,
                 fields,
                 methodsCount,
-                methods
+                methods,
+                attributeCount,
+                attributes
         );
     }
 

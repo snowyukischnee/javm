@@ -1,5 +1,6 @@
 package com.tuannh.javm.classfile.constantpool;
 
+import com.tuannh.javm.classfile.common.DebugPrintConstants;
 import com.tuannh.javm.classfile.common.ResolvableWithRequiredObj;
 import com.tuannh.javm.util.ByteBufferUtils;
 import com.tuannh.javm.util.ByteUtils;
@@ -19,26 +20,27 @@ public class ConstantPoolInvokeDynamic extends ConstantPoolInfo implements Resol
     private int bootstrapMethodAttrIndex;
     private int nameAndTypeIndex;
 
+    private ConstantPoolNameAndType nameAndType;
+
     public ConstantPoolInvokeDynamic(byte[] bytes) {
-        super(ConstantPoolTag.METHOD_TYPE);
+        super(ConstantPoolTag.INVOKE_DYNAMIC);
         this.bootstrapMethodAttrIndex = ByteBufferUtils.getUnsignedShort(ByteUtils.slice(bytes, 0, 2));
         this.nameAndTypeIndex = ByteBufferUtils.getUnsignedShort(ByteUtils.slice(bytes, 2, 4));
     }
 
     public ConstantPoolInvokeDynamic(short bootstrapMethodAttrIndex, short nameAndTypeIndex) {
-        super(ConstantPoolTag.METHOD_TYPE);
+        super(ConstantPoolTag.INVOKE_DYNAMIC);
         this.bootstrapMethodAttrIndex = Conversion.shortToInt(bootstrapMethodAttrIndex);
         this.nameAndTypeIndex = Conversion.shortToInt(nameAndTypeIndex);
     }
 
     @Override
-    public void resolve(ConstantPoolInfo[] obj) {
-        // TODO implement resolve method
+    public void resolve(ConstantPoolInfo[] constantPool) {
+        nameAndType = (ConstantPoolNameAndType) constantPool[nameAndTypeIndex - 1];
     }
 
     @Override
     public String debugPrint(int padding) {
-        // TODO debug print
-        return toString();
+        return String.format("%-25s%d.#%d%15s #%d:%s:%s", getTag(), bootstrapMethodAttrIndex, nameAndTypeIndex, DebugPrintConstants.SEPERATOR, bootstrapMethodAttrIndex, nameAndType.getName(), nameAndType.getDescriptor());
     }
 }

@@ -19,7 +19,7 @@ public class AttributeInfoParser {
             String attributeName = ((ConstantPoolUtf8)constantPool[attributeNameIndex- 1]).getValue();
             AttributeInfoType attributeType = AttributeInfoType.fromStr(attributeName);
             // -------------------------------------------------------------
-            // TODO
+            // TODO madness
             switch (attributeType) {
                 case CONSTANT_VALUE:
                     attributes[i] = new AttributeInfoConstantValue(attributeNameIndex, attributeLength, ByteUtils.readBytes(stream, attributeLength), constantPool);
@@ -31,10 +31,10 @@ public class AttributeInfoParser {
                     attributes[i] = new AttributeInfoStackMapTable(attributeNameIndex, attributeLength, ByteUtils.readBytes(stream, attributeLength), constantPool);
                     break;
                 case EXCEPTIONS:
-                    stream.skipBytes(attributeLength);
+                    attributes[i] = new AttributeInfoExceptions(attributeNameIndex, attributeLength, ByteUtils.readBytes(stream, attributeLength), constantPool);
                     break;
                 case BOOTSTRAP_METHODS:
-                    stream.skipBytes(attributeLength);
+                    attributes[i] = new AttributeInfoBootstrapMethods(attributeNameIndex, attributeLength, ByteUtils.readBytes(stream, attributeLength), constantPool);
                     break;
                 case INNER_CLASSES:
                     stream.skipBytes(attributeLength);
@@ -73,7 +73,7 @@ public class AttributeInfoParser {
                     stream.skipBytes(attributeLength);
                     break;
                 case SOURCE_FILE:
-                    stream.skipBytes(attributeLength);
+                    attributes[i] = new AttributeInfoSourceFile(attributeNameIndex, attributeLength, ByteUtils.readBytes(stream, attributeLength), constantPool);
                     break;
                 case SOURCE_DEBUG_EXTENSION:
                     stream.skipBytes(attributeLength);

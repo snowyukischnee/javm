@@ -3,6 +3,7 @@ package com.tuannh.javm.cli;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
+import java.util.Arrays;
 import java.util.List;
 
 class TestInheritance {
@@ -33,7 +34,8 @@ public class TestParser extends TestInheritance implements TestInterface {
     @Override
     public void gg() throws IOException {
         try {
-            System.out.println(MAGICTEST);
+            int[] a = new int[] {1,2,3};
+            Arrays.stream(a).forEach(x -> System.out.println(x));
             throw new IOException("dd");
         } catch (IOException e) {
             throw e;

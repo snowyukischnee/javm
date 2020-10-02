@@ -35,7 +35,7 @@ public class AttributeInfoStackMapTable extends AttributeInfo {
     @Override
     public String debugPrint(int padding) {
         StringBuilder builder = new StringBuilder();
-        builder.append(String.format("StackMapFrame(number_of_entries=%d):%n", numberOfEntries));
+        builder.append(String.format("StackMapTable(number_of_entries=%d):%n", numberOfEntries));
         for (int i = 0; i < numberOfEntries; i++) {
             builder.append(String.format("%s\t%s", PADDING[padding], frames[i].debugPrint(padding + 1)));
         }

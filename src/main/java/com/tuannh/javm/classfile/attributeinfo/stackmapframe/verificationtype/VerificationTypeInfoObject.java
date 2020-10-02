@@ -20,6 +20,6 @@ public class VerificationTypeInfoObject extends VerificationTypeInfo {
 
     @Override
     public String debugPrint(int padding) {
-        return String.format("Object_variable_info: %s", cpool.debugPrint(0));
+        return String.format("Object_variable_info: class %s", cpool.getName());
     }
 }

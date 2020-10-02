@@ -127,7 +127,8 @@ public class AttributeInfoCode extends AttributeInfo {
                     ByteBufferUtils.getUnsignedShort(ByteUtils.slice(bytes, currentRead, currentRead + 2)),
                     ByteBufferUtils.getUnsignedShort(ByteUtils.slice(bytes, currentRead + 2, currentRead + 4)),
                     ByteBufferUtils.getUnsignedShort(ByteUtils.slice(bytes, currentRead + 4, currentRead + 6)),
-                    ByteBufferUtils.getUnsignedShort(ByteUtils.slice(bytes, currentRead + 6, currentRead + 8))
+                    ByteBufferUtils.getUnsignedShort(ByteUtils.slice(bytes, currentRead + 6, currentRead + 8)),
+                    constantPool
             );
             currentRead += 8;
         }
@@ -138,7 +139,7 @@ public class AttributeInfoCode extends AttributeInfo {
     @Override
     public String debugPrint(int padding) {
         StringBuilder builder = new StringBuilder();
-        builder.append(String.format("Code:%n"));
+        builder.append(String.format("Code:---------------------------------------------------------------------------%n"));
         // ---------------------------------------------------------------------
         builder.append(PADDING[padding]);
         builder.append(String.format("max_stack: %d\t", maxStack));
@@ -161,6 +162,7 @@ public class AttributeInfoCode extends AttributeInfo {
                 builder.append(String.format(TABLE_ITEM_FMT, PADDING[padding], i, attributes[i].debugPrint(padding + 1)));
             }
         }
+        builder.append(String.format("%s--------------------------------------------------------------------------------", PADDING[padding]));
         return builder.toString();
     }
 }

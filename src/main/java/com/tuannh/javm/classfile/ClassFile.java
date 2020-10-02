@@ -1,6 +1,7 @@
 package com.tuannh.javm.classfile;
 
 import com.tuannh.javm.classfile.accessflag.ClassAccessFlag;
+import com.tuannh.javm.classfile.attributeinfo.AttributeInfo;
 import com.tuannh.javm.classfile.common.DebugPrint;
 import com.tuannh.javm.classfile.constantpool.ConstantPoolClass;
 import com.tuannh.javm.classfile.constantpool.ConstantPoolInfo;
@@ -52,6 +53,8 @@ public class ClassFile implements DebugPrint {
     private FieldInfo[] fields;
     private int methodsCount;
     private MethodInfo[] methods;
+    private int attributeCount;
+    private AttributeInfo[] attributes;
 
     @Override
     public String debugPrint(int padding) {
@@ -69,27 +72,35 @@ public class ClassFile implements DebugPrint {
         builder.append(String.format("interfaces_count: %d\t", interfacesCount));
         builder.append(String.format("fields_count: %d\t", fieldsCount));
         builder.append(String.format("methods_count: %d\t", methodsCount));
+        builder.append(String.format("attribute_count: %d\t", attributeCount));
         builder.append("\n");
         // ---
-        final String TABLE_ITEM_FMT = "%s\t#%d\t%s%n";
+        final String TABLE_ITEM_FMT_1 = "%s\t%d:\t%s%n";
+        final String TABLE_ITEM_FMT_0 = "%s\t#%d\t%s%n";
         builder.append(String.format("%sConstant pool(count=%d):%n", PADDING[padding], constantPoolCount));
         for (int i = 0; i < constantPoolCount - 1; i++) {
             if (constantPool[i] == null) {
                 continue;
             }
-            builder.append(String.format(TABLE_ITEM_FMT, PADDING[padding], i + 1, constantPool[i].debugPrint(padding + 1)));
+            builder.append(String.format(TABLE_ITEM_FMT_0, PADDING[padding], i + 1, constantPool[i].debugPrint(padding + 1)));
         }
         builder.append(String.format("Interfaces(count=%d):%n", interfacesCount));
         for (int i = 0; i < interfacesCount; i++) {
-            builder.append(String.format(TABLE_ITEM_FMT, PADDING[padding], i + 1, interfaces[i].debugPrint(padding + 1)));
+            builder.append(String.format(TABLE_ITEM_FMT_0, PADDING[padding], i + 1, interfaces[i].debugPrint(padding + 1)));
         }
         builder.append(String.format("Fields(count=%d):%n", fieldsCount));
         for (int i = 0; i < fieldsCount; i++) {
-            builder.append(String.format(TABLE_ITEM_FMT, PADDING[padding], i + 1, fields[i].debugPrint(padding + 1)));
+            builder.append(String.format(TABLE_ITEM_FMT_0, PADDING[padding], i + 1, fields[i].debugPrint(padding + 1)));
         }
-        builder.append(String.format("Methods (count=%d):%n", methodsCount));
+        builder.append(String.format("Methods(count=%d):%n", methodsCount));
         for (int i = 0; i < methodsCount; i++) {
-            builder.append(String.format(TABLE_ITEM_FMT, PADDING[padding], i + 1, methods[i].debugPrint(padding + 1)));
+            builder.append(String.format(TABLE_ITEM_FMT_0, PADDING[padding], i + 1, methods[i].debugPrint(padding + 1)));
+        }
+        builder.append(String.format("Attribute(count=%d):%n", attributeCount));
+        for (int i = 0; i < attributeCount; i++) {
+            if (attributes[i] != null) {
+                builder.append(String.format(TABLE_ITEM_FMT_0, PADDING[padding], i + 1, attributes[i].debugPrint(padding + 1)));
+            }
         }
         return builder.toString();
     }
