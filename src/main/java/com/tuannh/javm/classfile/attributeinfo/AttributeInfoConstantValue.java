@@ -34,17 +34,6 @@ public class AttributeInfoConstantValue extends AttributeInfo {
     private ConstantPoolInfo value;
 
     @SuppressWarnings("java:S112")
-    public AttributeInfoConstantValue(int attributeNameIndex, int attributeLength, short constantValueIndex, ConstantPoolInfo[] constantPool) {
-        super(attributeNameIndex, attributeLength, constantPool);
-        if (attributeLength != 2) {
-            throw new RuntimeException("The value of the attribute_length item of a ConstantValue_attribute structure must be two");
-        }
-        this.constantValueIndex = Conversion.shortToInt(constantValueIndex);
-
-        value = constantPool[constantValueIndex - 1];
-    }
-
-    @SuppressWarnings("java:S112")
     public AttributeInfoConstantValue(int attributeNameIndex, int attributeLength, byte[] bytes, ConstantPoolInfo[] constantPool) {
         super(attributeNameIndex, attributeLength, constantPool);
         if (attributeLength != 2) {

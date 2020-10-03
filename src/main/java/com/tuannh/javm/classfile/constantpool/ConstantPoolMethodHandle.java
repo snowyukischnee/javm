@@ -47,7 +47,7 @@ public class ConstantPoolMethodHandle extends ConstantPoolInfo implements Resolv
     @SuppressWarnings("java:S112")
     @Override
     public String debugPrint(int padding) {
-        final String FMT = "%-25s%d.#%d%15s %s %s.%s:%s";
+        final String FMT = "%-25s%d.#%d%15s %s // %s %s.%s:%s";
         switch (referenceKindValue) {
             case REF_GETFIELD:
             case REF_GETSTATIC:
@@ -59,6 +59,7 @@ public class ConstantPoolMethodHandle extends ConstantPoolInfo implements Resolv
                         referenceKind,
                         referenceIndex,
                         DebugPrintConstants.SEPERATOR,
+                        referenceKindValue,
                         reference.getTag(),
                         ((ConstantPoolFieldRef)reference).getClass().getName(),
                         ((ConstantPoolFieldRef)reference).getNameAndType().getName(),
@@ -72,6 +73,7 @@ public class ConstantPoolMethodHandle extends ConstantPoolInfo implements Resolv
                         referenceKind,
                         referenceIndex,
                         DebugPrintConstants.SEPERATOR,
+                        referenceKindValue,
                         reference.getTag(),
                         ((ConstantPoolMethodRef)reference).getClass().getName(),
                         ((ConstantPoolMethodRef)reference).getNameAndType().getName(),
@@ -86,6 +88,7 @@ public class ConstantPoolMethodHandle extends ConstantPoolInfo implements Resolv
                             referenceKind,
                             referenceIndex,
                             DebugPrintConstants.SEPERATOR,
+                            referenceKindValue,
                             reference.getTag(),
                             ((ConstantPoolMethodRef)reference).getClass().getName(),
                             ((ConstantPoolMethodRef)reference).getNameAndType().getName(),
@@ -98,6 +101,7 @@ public class ConstantPoolMethodHandle extends ConstantPoolInfo implements Resolv
                             referenceKind,
                             referenceIndex,
                             DebugPrintConstants.SEPERATOR,
+                            referenceKindValue,
                             reference.getTag(),
                             ((ConstantPoolInterfaceMethodRef)reference).getClass().getName(),
                             ((ConstantPoolInterfaceMethodRef)reference).getNameAndType().getName(),
@@ -112,6 +116,7 @@ public class ConstantPoolMethodHandle extends ConstantPoolInfo implements Resolv
                         referenceKind,
                         referenceIndex,
                         DebugPrintConstants.SEPERATOR,
+                        referenceKindValue,
                         reference.getTag(),
                         ((ConstantPoolInterfaceMethodRef)reference).getClass().getName(),
                         ((ConstantPoolInterfaceMethodRef)reference).getNameAndType().getName(),

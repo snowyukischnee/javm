@@ -37,7 +37,7 @@ public class AttributeInfoParser {
                     attributes[i] = new AttributeInfoBootstrapMethods(attributeNameIndex, attributeLength, ByteUtils.readBytes(stream, attributeLength), constantPool);
                     break;
                 case INNER_CLASSES:
-                    stream.skipBytes(attributeLength);
+                    attributes[i] = new AttributeInfoInnerClasses(attributeNameIndex, attributeLength, ByteUtils.readBytes(stream, attributeLength), constantPool);
                     break;
                 case ENCLOSING_METHOD:
                     stream.skipBytes(attributeLength);
@@ -88,7 +88,7 @@ public class AttributeInfoParser {
                     stream.skipBytes(attributeLength);
                     break;
                 case DEPRECATED:
-                    stream.skipBytes(attributeLength);
+                    attributes[i] = new AttributeInfoDeprecated(attributeNameIndex, attributeLength, ByteUtils.readBytes(stream, attributeLength), constantPool);
                     break;
                 default:
                     stream.skipBytes(attributeLength);
